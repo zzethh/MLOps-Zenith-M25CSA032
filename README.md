@@ -23,12 +23,10 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
   https://colab.research.google.com/drive/1WvjjTIT6QyN_ygidWWWAq5B-FjpUng4_?usp=sharing
 
 - **GitHub Repository:**  
-  *(Add your repository link here)*
+  https://github.com/zzethh/MLOps-Zenith-M25CSA032.git
 
 - **GitHub Pages:**  
-  *(Add your GitHub Pages link here, if enabled)*
-
-> ⚠️ As per assignment rules, the Colab notebook contains **already run experiments**.
+  https://zzethh.github.io/MLOps-Zenith-M25CSA032/
 
 ---
 
@@ -140,5 +138,4 @@ Hardware benchmarking on FashionMNIST to analyze training time, FLOPs, and accur
 confirming that NVIDIA A30 GPUs are optimal for compute-bound deep learning workloads.
 
 ---
-
 
