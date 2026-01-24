@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 Abstract
+##  Abstract
 This repository presents a comprehensive benchmarking study of deep learning and classical
 machine learning models on the MNIST and FashionMNIST datasets. We evaluate **ResNet-18**
 and **ResNet-50** architectures against classical **Support Vector Machines (SVMs)** and
@@ -18,7 +18,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## 🔗 Submission Links
+##  Submission Links
 - **Google Colab Notebook (Executed):**  
   https://colab.research.google.com/drive/1WvjjTIT6QyN_ygidWWWAq5B-FjpUng4_?usp=sharing
 
@@ -30,7 +30,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## ⚙️ System Specifications
+##  System Specifications
 - **CPU:** Dual Intel Xeon Gold 6326  
   - 2 Physical sockets  
   - 32 cores total (16 per socket)  
@@ -46,7 +46,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## ⚙️ Experimental Settings
+##  Experimental Settings
 - **Dataset Split:** 70% Train / 10% Validation / 20% Test  
 - **Framework:** PyTorch  
 - **Automatic Mixed Precision (AMP):** Enabled  
@@ -57,7 +57,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## 📊 Q1 (A): ResNet Hyperparameter Benchmarking
+##  Q1 (A): ResNet Hyperparameter Benchmarking
 
 All combinations of the following parameters were evaluated:
 
@@ -94,7 +94,7 @@ All combinations of the following parameters were evaluated:
 
 ---
 
-## 📈 Training Dynamics & Convergence Analysis
+##  Training Dynamics & Convergence Analysis
 
 ### MNIST – ResNet-18 (10 Epochs, pin_memory=True)
 ![MNIST Convergence](figures/1a_MNIST_Training_Dynamics.png)
@@ -109,7 +109,7 @@ All combinations of the following parameters were evaluated:
 
 ---
 
-## 📊 Q1 (B): SVM Classification Results (CPU Only)
+##  Q1 (B): SVM Classification Results (CPU Only)
 
 | Dataset | Kernel | Test Acc (%) | Training Time (ms) |
 |--------|--------|--------------|--------------------|
@@ -124,7 +124,7 @@ large image datasets.
 
 ---
 
-## 🚀 Q2: Hardware Acceleration (CPU vs GPU)
+##  Q2: Hardware Acceleration (CPU vs GPU)
 
 ### Adam Optimizer (10 Epochs, pin_memory=True)
 
