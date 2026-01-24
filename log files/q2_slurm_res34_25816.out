@@ -1,0 +1,49 @@
+Starting Q2 Benchmark (ResNet34 Only)...
+Running: CPU | resnet34 | SGD
+  Ep 1/10 | Time: 469.34s | Loss: 0.4620 | Acc: 88.63%
+  Ep 2/10 | Time: 467.68s | Loss: 0.2841 | Acc: 90.20%
+  Ep 3/10 | Time: 467.97s | Loss: 0.2284 | Acc: 90.11%
+  Ep 4/10 | Time: 468.13s | Loss: 0.1924 | Acc: 90.98%
+  Ep 5/10 | Time: 468.31s | Loss: 0.1638 | Acc: 90.78%
+  Ep 6/10 | Time: 467.61s | Loss: 0.1381 | Acc: 92.15%
+  Ep 7/10 | Time: 468.12s | Loss: 0.1198 | Acc: 89.21%
+  Ep 8/10 | Time: 468.58s | Loss: 0.1037 | Acc: 92.20%
+  Ep 9/10 | Time: 470.13s | Loss: 0.0870 | Acc: 91.40%
+  Ep 10/10 | Time: 468.98s | Loss: 0.0736 | Acc: 91.80%
+  New Best Model Saved for cpu!
+Running: CPU | resnet34 | Adam
+  Ep 1/10 | Time: 546.72s | Loss: 0.4481 | Acc: 86.46%
+  Ep 2/10 | Time: 542.96s | Loss: 0.2986 | Acc: 89.72%
+  Ep 3/10 | Time: 545.12s | Loss: 0.2496 | Acc: 90.91%
+  Ep 4/10 | Time: 545.31s | Loss: 0.2153 | Acc: 90.62%
+  Ep 5/10 | Time: 548.37s | Loss: 0.1845 | Acc: 91.84%
+  Ep 6/10 | Time: 557.47s | Loss: 0.1595 | Acc: 92.00%
+  Ep 7/10 | Time: 553.09s | Loss: 0.1349 | Acc: 92.35%
+  Ep 8/10 | Time: 553.70s | Loss: 0.1126 | Acc: 92.29%
+  Ep 9/10 | Time: 552.88s | Loss: 0.0915 | Acc: 89.21%
+  Ep 10/10 | Time: 557.22s | Loss: 0.0786 | Acc: 92.51%
+  New Best Model Saved for cpu!
+Running: CUDA | resnet34 | SGD
+  Ep 1/10 | Time: 111.50s | Loss: 0.4796 | Acc: 88.23%
+  Ep 2/10 | Time: 109.30s | Loss: 0.2904 | Acc: 89.56%
+  Ep 3/10 | Time: 108.37s | Loss: 0.2358 | Acc: 90.77%
+  Ep 4/10 | Time: 107.80s | Loss: 0.1969 | Acc: 91.64%
+  Ep 5/10 | Time: 110.30s | Loss: 0.1698 | Acc: 90.76%
+  Ep 6/10 | Time: 108.76s | Loss: 0.1464 | Acc: 91.53%
+  Ep 7/10 | Time: 107.06s | Loss: 0.1246 | Acc: 91.62%
+  Ep 8/10 | Time: 107.08s | Loss: 0.1071 | Acc: 91.71%
+  Ep 9/10 | Time: 108.56s | Loss: 0.0920 | Acc: 91.35%
+  Ep 10/10 | Time: 110.00s | Loss: 0.0790 | Acc: 91.17%
+  New Best Model Saved for cuda!
+Running: CUDA | resnet34 | Adam
+  Ep 1/10 | Time: 114.42s | Loss: 0.4511 | Acc: 87.91%
+  Ep 2/10 | Time: 113.85s | Loss: 0.3028 | Acc: 89.49%
+  Ep 3/10 | Time: 114.04s | Loss: 0.2491 | Acc: 90.81%
+  Ep 4/10 | Time: 113.64s | Loss: 0.2145 | Acc: 90.73%
+  Ep 5/10 | Time: 114.30s | Loss: 0.1839 | Acc: 91.35%
+  Ep 6/10 | Time: 113.99s | Loss: 0.1590 | Acc: 91.70%
+  Ep 7/10 | Time: 113.73s | Loss: 0.1372 | Acc: 92.39%
+  Ep 8/10 | Time: 114.02s | Loss: 0.1155 | Acc: 92.60%
+  Ep 9/10 | Time: 114.10s | Loss: 0.0970 | Acc: 92.32%
+  Ep 10/10 | Time: 114.14s | Loss: 0.0806 | Acc: 92.81%
+  New Best Model Saved for cuda!
