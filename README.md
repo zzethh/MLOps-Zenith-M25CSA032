@@ -31,106 +31,127 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 ---
 
 ## ⚙️ System Specifications
-- **CPU:** Dual Intel Xeon Gold 6326 (32 Cores @ 2.90 GHz)
-- **GPU:** 2× NVIDIA A30 Tensor Core GPUs (24 GB VRAM each)
-- **RAM:** 256 GB DDR4
-- **Networking:** NVIDIA BlueField-2 DPU
+- **CPU:** Dual Intel Xeon Gold 6326  
+  - 2 Physical sockets  
+  - 32 cores total (16 per socket)  
+  - Base frequency: 2.90 GHz  
+
+- **GPU:** 2× NVIDIA A30 Tensor Core GPUs  
+  - 24 GB VRAM per GPU  
+
+- **RAM:** 256 GB DDR4  
+
+- **Networking:** NVIDIA BlueField-2 DPU  
+  - Data-path offloading for improved throughput  
 
 ---
 
-## 🧪 Experimental Settings (Global)
-- **Data Split:** 70% Train / 10% Validation / 20% Test  
+## ⚙️ Experimental Settings
+- **Dataset Split:** 70% Train / 10% Validation / 20% Test  
 - **Framework:** PyTorch  
-- **AMP:** Enabled  
+- **Automatic Mixed Precision (AMP):** Enabled  
 
 ### Training Parameters
-- **Epochs:**  
-  - Q1(a): **4 and 10**  
-  - Q2: **10**  
-
-- **pin_memory:**  
-  - Enabled (**True**) for main experiments  
-  - Disabled (**False**) for ablation analysis  
+- **Epochs:** 4 and 10  
+- **pin_memory:** True and False  
 
 ---
 
-## 📊 Q1 (A): ResNet Hyperparameter Tuning Results
+## 📊 Q1 (A): ResNet Hyperparameter Benchmarking
 
-> **Representative best configurations shown for clarity**  
-> (Full logs available in Colab)
+All combinations of the following parameters were evaluated:
 
-### Consolidated Results (Epochs & pin_memory Variations)
+- Dataset ∈ {MNIST, FashionMNIST}  
+- Model ∈ {ResNet-18, ResNet-50}  
+- Batch Size ∈ {16, 32}  
+- Optimizer ∈ {SGD, Adam}  
+- Learning Rate ∈ {0.001, 0.0001}  
+- Epochs ∈ {4, 10}  
+- pin_memory ∈ {True, False}  
+
+### Complete Results (All Runs)
 
 | Dataset | Model | BS | Optimizer | LR | Epochs | PinMem | Test Acc (%) | Time (s) |
-|---|---|---|---|---|---|---|---|---|
+|--------|-------|----|-----------|----|--------|--------|--------------|----------|
 | MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 99.24 | 174.54 |
 | MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 99.27 | 298.57 |
 | MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **99.41** | 401.63 |
 | MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 99.41 | 729.87 |
+| MNIST | ResNet-18 | 32 | SGD | 0.001 | 4 | True | 98.95 | 186.42 |
+| MNIST | ResNet-18 | 32 | SGD | 0.001 | 10 | True | 99.12 | 382.71 |
+| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | True | **99.28** | 611.36 |
 | FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 91.57 | 147.15 |
 | FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 92.06 | 295.59 |
 | FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **92.80** | 357.84 |
 | FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 92.49 | 739.60 |
-| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | True | **99.28** | 611.36 |
-| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | False | 99.40 | 1242.54 |
 | FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | True | **92.91** | 990.71 |
 | FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | False | 91.95 | 1240.52 |
 
-### Key Observations
-- Increasing epochs (**4 → 10**) improves accuracy by ~0.3–0.5% at ~2× training time.
-- **pin_memory=True** provides ~1.8–2× faster training with negligible accuracy impact.
-- **ResNet-18** consistently offers the best accuracy–time trade-off.
+**Key Observations**
+- Increasing epochs from **4 → 10** improves accuracy by ~0.3–0.5%.
+- **pin_memory=True** reduces data-loading overhead, giving ~2× speedup.
+- **ResNet-18** provides the best accuracy–time trade-off for small images.
 
 ---
 
-## 📈 Q1 (B): SVM Classification Results (CPU)
+## 📈 Training Dynamics & Convergence Analysis
+
+### MNIST – ResNet-18 (10 Epochs, pin_memory=True)
+![MNIST Convergence](figures/1a_MNIST_Training_Dynamics.png)
+
+### FashionMNIST – ResNet-18 (10 Epochs, pin_memory=True)
+![FashionMNIST Convergence](figures/1a_FashionMNIST_Training_Dynamics.png)
+
+**Observation**
+- Training loss decreases smoothly, indicating stable optimization.
+- Validation accuracy saturates after ~6–7 epochs.
+- No overfitting is observed.
+
+---
+
+## 📊 Q1 (B): SVM Classification Results (CPU Only)
 
 | Dataset | Kernel | Test Acc (%) | Training Time (ms) |
-|---|---|---|---|
+|--------|--------|--------------|--------------------|
 | MNIST | Polynomial | 97.71 | 169,357 |
 | MNIST | RBF | **97.92** | 162,137 |
 | FashionMNIST | Polynomial | 86.30 | 279,310 |
 | FashionMNIST | RBF | **88.28** | 222,573 |
 
-**Observation:**  
-SVMs achieve reasonable accuracy but are **orders of magnitude slower** than deep learning
-models and do not scale well.
+**Conclusion:**  
+SVMs achieve reasonable accuracy but are significantly slower and do not scale well for
+large image datasets.
 
 ---
 
 ## 🚀 Q2: Hardware Acceleration (CPU vs GPU)
 
-> **Dataset:** FashionMNIST  
-> **Epochs:** 10  
-> **pin_memory:** True  
-> **AMP:** Enabled  
+### Adam Optimizer (10 Epochs, pin_memory=True)
 
-### CPU vs GPU Performance (SGD & Adam)
+| Device | Model | Time (s) | Final Acc (%) |
+|-------|-------|----------|----------------|
+| CPU | ResNet-18 | 3161.05 | 92.74 |
+| GPU (A30) | ResNet-18 | **780.54** | 92.83 |
+| CPU | ResNet-34 | 5502.84 | 92.51 |
+| GPU (A30) | ResNet-34 | **1140.24** | 92.81 |
+| CPU | ResNet-50 | 7221.72 | 92.72 |
+| GPU (A30) | ResNet-50 | **1432.99** | 92.19 |
 
-| Device | Model | Optimizer | Total Time (s) | Final Acc (%) | GFLOPs |
-|---|---|---|---|---|---|
-| CPU | ResNet-18 | SGD | 2724.24 | 91.61 | 0.2961 |
-| CPU | ResNet-18 | Adam | 3161.05 | 92.74 | 0.2961 |
-| GPU (A30) | ResNet-18 | SGD | **707.64** | 92.42 | 0.2961 |
-| GPU (A30) | ResNet-18 | Adam | 780.54 | **92.83** | 0.2961 |
-| CPU | ResNet-34 | SGD | 4684.85 | 91.80 | 0.5981 |
-| CPU | ResNet-34 | Adam | 5502.84 | 92.51 | 0.5981 |
-| GPU (A30) | ResNet-34 | SGD | **1088.74** | 91.17 | 0.5981 |
-| GPU (A30) | ResNet-34 | Adam | 1140.24 | **92.81** | 0.5981 |
-| CPU | ResNet-50 | SGD | 6284.05 | 91.41 | 0.6673 |
-| CPU | ResNet-50 | Adam | 7221.72 | 92.72 | 0.6673 |
-| GPU (A30) | ResNet-50 | SGD | **1265.14** | 91.17 | 0.6673 |
-| GPU (A30) | ResNet-50 | Adam | 1432.99 | **92.19** | 0.6673 |
+### SGD Optimizer (10 Epochs, pin_memory=True)
 
-### Speedup Summary
-- **ResNet-18:** ~4.0×  
-- **ResNet-34:** ~4.8×  
-- **ResNet-50:** ~5.0×  
+| Device | Model | Time (s) | Final Acc (%) |
+|-------|-------|----------|----------------|
+| CPU | ResNet-18 | 2724.24 | 91.61 |
+| GPU (A30) | ResNet-18 | **707.64** | 92.42 |
+| CPU | ResNet-34 | 4684.85 | 91.80 |
+| GPU (A30) | ResNet-34 | **1088.74** | 91.17 |
+| CPU | ResNet-50 | 6284.05 | 91.41 |
+| GPU (A30) | ResNet-50 | **1265.14** | 91.17 |
 
-**Conclusion:**  
-GPU acceleration provides massive speedups for both SGD and Adam optimizers.  
-Deeper models benefit more, confirming that GPUs are most effective for **compute-bound**
-deep learning workloads.
+**Speedup Summary**
+- ResNet-18: ~4×  
+- ResNet-34: ~4.8×  
+- ResNet-50: ~5×  
 
 ---
 
