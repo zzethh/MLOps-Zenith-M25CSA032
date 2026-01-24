@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 Abstract
+##  Abstract
 This repository presents a comprehensive benchmarking study of deep learning and classical
 machine learning models on the MNIST and FashionMNIST datasets. We evaluate **ResNet-18**
 and **ResNet-50** architectures against classical **Support Vector Machines (SVMs)** and
@@ -18,7 +18,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## 🔗 Submission Links
+##  Submission Links
 - **Google Colab Notebook (Executed):**  
   https://colab.research.google.com/drive/1WvjjTIT6QyN_ygidWWWAq5B-FjpUng4_?usp=sharing
 
@@ -30,7 +30,7 @@ NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Autom
 
 ---
 
-## ⚙️ System Specifications
+##  System Specifications
 Experiments were performed on the following system:
 
 - **CPU:** Dual Intel Xeon Gold 6326  
@@ -49,7 +49,7 @@ Experiments were performed on the following system:
 
 ---
 
-## 🧪 Experimental Settings (Global)
+##  Experimental Settings (Global)
 Unless explicitly stated otherwise, the following settings were used:
 
 - **Data Split:** 70% Train / 10% Validation / 20% Test  
@@ -69,7 +69,7 @@ This information is explicitly documented for clarity and evaluation transparenc
 
 ---
 
-## 📊 Q1 (A): ResNet Hyperparameter Tuning Results
+##  Q1 (A): ResNet Hyperparameter Tuning Results
 
 Evaluation of **ResNet-18** and **ResNet-50** on MNIST and FashionMNIST using varying
 Batch Sizes (BS), Optimizers, and Learning Rates (LR).
@@ -95,7 +95,7 @@ Batch Sizes (BS), Optimizers, and Learning Rates (LR).
 
 ---
 
-## 📈 Q1 (B): SVM Classification Results
+##  Q1 (B): SVM Classification Results
 
 Classical machine learning benchmarks using Support Vector Machines (CPU-only).
 
@@ -113,7 +113,7 @@ classification tasks.
 
 ---
 
-## 🚀 Q2: Hardware Acceleration (CPU vs GPU)
+##  Q2: Hardware Acceleration (CPU vs GPU)
 
 Hardware benchmarking on FashionMNIST to analyze training time, FLOPs, and accuracy.
 
