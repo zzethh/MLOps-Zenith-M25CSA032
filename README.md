@@ -1,4 +1,5 @@
-# Lab 2 – CIFAR-10 CNN with FLOPs and Training Dynamics  
+# Lab 2 – CIFAR-10 CNN with FLOPs and Training Dynamics
+
 **Course:** CSL7120 – ML / DL / Ops  
 **Name:** Zenith  
 **Roll Number:** M25CSA032  
@@ -8,12 +9,12 @@
 
 ## Overview
 
-This repository contains the submission for **Lab 2 – Worksheet 1**, where a
-Convolutional Neural Network (CNN) is trained on the **CIFAR-10** dataset using
-a **custom dataloader**. The assignment focuses on model analysis beyond
-accuracy, including **FLOPs computation**, **gradient flow**, and
-**weight update flow**, with all metrics and visualizations logged to
-**Weights & Biases (W&B)**.
+This repository contains the submission for **Lab 2 – Worksheet 1**, focusing on
+training and analyzing a Convolutional Neural Network (CNN) on the **CIFAR-10**
+dataset using a **custom dataloader**.  
+Beyond accuracy, the assignment emphasizes **computational complexity (FLOPs)**,
+**gradient flow**, and **weight update flow**, with all metrics and visualizations
+logged to **Weights & Biases (W&B)**.
 
 ---
 
@@ -28,29 +29,30 @@ accuracy, including **FLOPs computation**, **gradient flow**, and
 A custom dataset class `CustomCIFAR10` wraps
 `torchvision.datasets.CIFAR10` and applies dataset-specific transforms.
 
-**Transforms**
-- Training:
+### Transforms
+- **Training**
   - Random crop (32, padding=4)
   - Random horizontal flip
-  - Normalization (CIFAR-10 statistics)
-- Testing:
+  - Normalization using CIFAR-10 statistics
+- **Testing**
   - Normalization only
 
 ---
 
 ## Model Architecture
 
-The selected model is a lightweight **SimpleCNN**, consisting of:
+The selected model is a lightweight **SimpleCNN** designed for CIFAR-10:
 
-- 4 convolutional blocks  
-  `(Conv2D → BatchNorm → ReLU → MaxPool)`
+- **4 convolutional blocks**
+  - Conv2D → BatchNorm → ReLU → MaxPool
   - Channels: 32 → 64 → 128 → 128
-- Fully connected layers:
-  - `128 × 8 × 8 → 512 → 10`
-- Dropout: 0.5 before the final classifier
+- **Fully connected layers**
+  - 128 × 8 × 8 → 512 → 10
+- **Dropout**
+  - 0.5 before the final classifier
 
-This architecture is well-suited for CIFAR-10 resolution and balances accuracy
-with computational cost.
+This architecture balances accuracy and computational cost while remaining
+well-suited to low-resolution images.
 
 ---
 
@@ -69,14 +71,17 @@ Training and evaluation metrics are logged to W&B at every epoch.
 
 ## FLOPs Analysis
 
-- FLOPs are computed using forward-pass hooks over all `Conv2D` and `Linear`
-  layers.
-- Input shape: `(1, 3, 32, 32)`
-- FLOPs formula:
-  - Convolution: `2 × Cin × Cout × Kh × Kw × Hout × Wout`
-  - Linear: `2 × in_features × out_features`
+FLOPs are computed using forward-pass hooks over all `Conv2D` and `Linear` layers.
 
-**Result:**
+### FLOPs Formula
+- **Convolution:**  
+  `2 × Cin × Cout × Kh × Kw × Hout × Wout`
+- **Linear:**  
+  `2 × in_features × out_features`
+
+- **Input shape:** `(1, 3, 32, 32)`
+
+### Result
 - **0.1612 GFLOPs per sample**
 
 This value represents the computational cost of a single forward pass and is
@@ -88,43 +93,43 @@ logged to W&B.
 
 ### Final Performance
 - **Final test accuracy:** **84.54%**
-- Training loss decreased steadily from ~1.79 to ~0.52.
-- Validation accuracy improved consistently and stabilized after ~25 epochs.
+- Training loss decreased from **1.79 → 0.52**
+- Validation accuracy steadily increased and stabilized after ~25 epochs
 
-### Training Dynamics
-- No severe overfitting observed.
-- Validation accuracy closely tracks training accuracy.
+### Training Behavior
+- Stable convergence
+- No severe overfitting
+- Validation accuracy closely tracks training accuracy
 
 ---
 
-## Gradient and Weight Flow
+## Gradient and Weight Flow Analysis
 
 To analyze training stability:
 
-- **Gradient flow**
-  - Mean and maximum gradient magnitudes per layer
-  - Logged after backpropagation
-- **Weight flow**
-  - Mean and maximum weight magnitudes per layer
-  - Logged during training
+### Gradient Flow
+- Mean and maximum gradient magnitudes per layer
+- Logged after backpropagation
 
-**Observations**
-- No vanishing or exploding gradients.
-- Stable weight magnitudes across layers.
-- Healthy learning dynamics throughout training.
+### Weight Flow
+- Mean and maximum weight magnitudes per layer
+- Logged during training
 
-All gradient and weight flow visualizations are available in W&B.
+### Observations
+- No vanishing or exploding gradients
+- Stable weight magnitudes across layers
+- Healthy learning dynamics throughout training
+
+All gradient and weight flow visualizations are logged to W&B.
 
 ---
 
-## Visualizations (W&B)
+## Visualizations Logged to W&B
 
-The following are logged and available via the W&B workspace:
-
-- Training & validation loss curves
-- Training & validation accuracy curves
+- Training and validation loss curves
+- Training and validation accuracy curves
 - Gradient flow (layer-wise)
-- Weight flow (layer-wise)
+- Weight update flow (layer-wise)
 - Confusion matrix (test set)
 - Per-class accuracy
 - Sample predictions (correct vs incorrect)
@@ -133,27 +138,20 @@ The following are logged and available via the W&B workspace:
 
 ## Experiment Tracking (Weights & Biases)
 
-All experiments and visualizations were logged using Weights & Biases.
+All experiments and visualizations are publicly available.
 
 **W&B Project Link:**  
 https://wandb.ai/lab72343/lab2_cifar10
-
-Logged artifacts include:
-- Training and validation loss/accuracy curves
-- Gradient flow plots
-- Weight update flow plots
-- Confusion matrix
-- Sample predictions
 
 ---
 
 ## Repository Structure
 
 ```text
-name_roll_number_lab2_worksheet1/
+lab2_worksheet1/
 │
 ├── codes/        # Training, model, FLOPs, and visualization code
-├── figures/      # Local copies of generated figures (if any)
+├── figures/      # Generated plots (if saved locally)
 ├── logs/         # Training logs
 ├── report/       # Final PDF report
 └── README.md     # This file
