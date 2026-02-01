@@ -1,157 +1,117 @@
-# DL-Ops Assignment 1: Deep Learning & Hardware Benchmarking
+# Lab 2 – CIFAR-10 CNN Analysis with FLOPs and Gradient Flow
 
-**Name:** Zenith  
+**Course:** CSL7120 – ML / DL / Ops  
+**Student Name:** Zenith  
 **Roll Number:** M25CSA032  
-**Department:** Computer Science  
+**Lab:** Lab 2 – Worksheet 1  
 
 ---
 
-##  Abstract
-This repository presents a comprehensive benchmarking study of deep learning and classical
-machine learning models on the MNIST and FashionMNIST datasets. We evaluate **ResNet-18**
-and **ResNet-50** architectures against classical **Support Vector Machines (SVMs)** and
-analyze the impact of **hardware acceleration (CPU vs GPU)**.
+## Objective
 
-All experiments were conducted on the **DPU–GPU HPC Cluster** (Dual Intel Xeon Gold 6326 +
-NVIDIA A30 GPUs). A **70–10–20 train–validation–test split** and **Automatic Mixed Precision
-(AMP)** were used for all deep learning experiments.
-
----
-
-##  Submission Links
-- **Google Colab Notebook (Executed):**  
-  https://colab.research.google.com/drive/1WvjjTIT6QyN_ygidWWWAq5B-FjpUng4_?usp=sharing
-
-- **GitHub Repository:**  
-  https://github.com/zzethh/MLOps-Zenith-M25CSA032.git
-
-- **GitHub Pages:**  
-  https://zzethh.github.io/MLOps-Zenith-M25CSA032/
+The objective of this lab is to:
+- Train a Convolutional Neural Network (CNN) on the CIFAR-10 dataset
+- Implement a custom PyTorch dataloader
+- Compute FLOPs for the selected model
+- Analyze training dynamics using gradient flow and weight update flow
+- Log all experiments and visualizations using Weights & Biases (W&B)
 
 ---
 
-##  System Specifications
-- **CPU:** Dual Intel Xeon Gold 6326  
-  - 2 Physical sockets  
-  - 32 cores total (16 per socket)  
-  - Base frequency: 2.90 GHz  
+## Model Architecture
 
-- **GPU:** 2× NVIDIA A30 Tensor Core GPUs  
-  - 24 GB VRAM per GPU  
+A custom CNN architecture (`SimpleCNN`) was implemented, consisting of:
+- Four convolutional layers with Batch Normalization and ReLU activation
+- Max pooling layers for spatial downsampling
+- Fully connected layers for final classification
+- Cross-entropy loss for optimization
 
-- **RAM:** 256 GB DDR4  
-
-- **Networking:** NVIDIA BlueField-2 DPU  
-  - Data-path offloading for improved throughput  
+The architecture is lightweight and well-suited for CIFAR-10 (32×32 RGB images).
 
 ---
 
-##  Experimental Settings
-- **Dataset Split:** 70% Train / 10% Validation / 20% Test  
-- **Framework:** PyTorch  
-- **Automatic Mixed Precision (AMP):** Enabled  
+## Dataset
 
-### Training Parameters
-- **Epochs:** 4 and 10  
-- **pin_memory:** True and False  
+- **Dataset:** CIFAR-10  
+- **Number of Classes:** 10  
+- **Image Size:** 32×32 RGB  
+- **Train/Test Split:** Standard CIFAR-10 split  
 
----
+### Preprocessing and Augmentation
+- Normalization using CIFAR-10 mean and standard deviation
+- Random horizontal flip
+- Random crop for data augmentation
 
-##  Q1 (A): ResNet Hyperparameter Benchmarking
-
-All combinations of the following parameters were evaluated:
-
-- Dataset ∈ {MNIST, FashionMNIST}  
-- Model ∈ {ResNet-18, ResNet-50}  
-- Batch Size ∈ {16, 32}  
-- Optimizer ∈ {SGD, Adam}  
-- Learning Rate ∈ {0.001, 0.0001}  
-- Epochs ∈ {4, 10}  
-- pin_memory ∈ {True, False}  
-
-### Complete Results (All Runs)
-
-| Dataset | Model | BS | Optimizer | LR | Epochs | PinMem | Test Acc (%) | Time (s) |
-|--------|-------|----|-----------|----|--------|--------|--------------|----------|
-| MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 99.24 | 174.54 |
-| MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 99.27 | 298.57 |
-| MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **99.41** | 401.63 |
-| MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 99.41 | 729.87 |
-| MNIST | ResNet-18 | 32 | SGD | 0.001 | 4 | True | 98.95 | 186.42 |
-| MNIST | ResNet-18 | 32 | SGD | 0.001 | 10 | True | 99.12 | 382.71 |
-| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | True | **99.28** | 611.36 |
-| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 91.57 | 147.15 |
-| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 92.06 | 295.59 |
-| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **92.80** | 357.84 |
-| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 92.49 | 739.60 |
-| FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | True | **92.91** | 990.71 |
-| FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | False | 91.95 | 1240.52 |
-
-**Key Observations**
-- Increasing epochs from **4 → 10** improves accuracy by ~0.3–0.5%.
-- **pin_memory=True** reduces data-loading overhead, giving ~2× speedup.
-- **ResNet-18** provides the best accuracy–time trade-off for small images.
+A custom dataset class (`CustomCIFAR10`) was created by wrapping `torchvision.datasets.CIFAR10`.
 
 ---
 
-##  Training Dynamics & Convergence Analysis
+## Training Configuration
 
-### MNIST – ResNet-18 (10 Epochs, pin_memory=True)
-![MNIST Convergence](figures/1a_MNIST_Training_Dynamics.png)
-
-### FashionMNIST – ResNet-18 (10 Epochs, pin_memory=True)
-![FashionMNIST Convergence](figures/1a_FashionMNIST_Training_Dynamics.png)
-
-**Observation**
-- Training loss decreases smoothly, indicating stable optimization.
-- Validation accuracy saturates after ~6–7 epochs.
-- No overfitting is observed.
+- **Epochs:** 30  
+- **Optimizer:** Adam  
+- **Learning Rate:** 1e-3  
+- **Loss Function:** CrossEntropyLoss  
+- **Batch Size:** As defined in the training script  
+- **Device:** GPU (if available)  
 
 ---
 
-##  Q1 (B): SVM Classification Results (CPU Only)
+## FLOPs Analysis
 
-| Dataset | Kernel | Test Acc (%) | Training Time (ms) |
-|--------|--------|--------------|--------------------|
-| MNIST | Polynomial | 97.71 | 169,357 |
-| MNIST | RBF | **97.92** | 162,137 |
-| FashionMNIST | Polynomial | 86.30 | 279,310 |
-| FashionMNIST | RBF | **88.28** | 222,573 |
+FLOPs were calculated using forward hooks registered on convolutional and linear layers.
 
-**Conclusion:**  
-SVMs achieve reasonable accuracy but are significantly slower and do not scale well for
-large image datasets.
+- **Total FLOPs per forward pass:** approximately **0.161 GFLOPs**
+
+This provides insight into the computational complexity of the model relative to its performance.
 
 ---
 
-##  Q2: Hardware Acceleration (CPU vs GPU)
+## Gradient Flow and Weight Update Analysis
 
-### Adam Optimizer (10 Epochs, pin_memory=True)
+To analyze training stability and optimization behavior:
+- Gradient flow was visualized using mean and maximum gradient magnitudes per layer
+- Weight update flow was visualized using layer-wise weight magnitudes
 
-| Device | Model | Time (s) | Final Acc (%) |
-|-------|-------|----------|----------------|
-| CPU | ResNet-18 | 3161.05 | 92.74 |
-| GPU (A30) | ResNet-18 | **780.54** | 92.83 |
-| CPU | ResNet-34 | 5502.84 | 92.51 |
-| GPU (A30) | ResNet-34 | **1140.24** | 92.81 |
-| CPU | ResNet-50 | 7221.72 | 92.72 |
-| GPU (A30) | ResNet-50 | **1432.99** | 92.19 |
-
-### SGD Optimizer (10 Epochs, pin_memory=True)
-
-| Device | Model | Time (s) | Final Acc (%) |
-|-------|-------|----------|----------------|
-| CPU | ResNet-18 | 2724.24 | 91.61 |
-| GPU (A30) | ResNet-18 | **707.64** | 92.42 |
-| CPU | ResNet-34 | 4684.85 | 91.80 |
-| GPU (A30) | ResNet-34 | **1088.74** | 91.17 |
-| CPU | ResNet-50 | 6284.05 | 91.41 |
-| GPU (A30) | ResNet-50 | **1265.14** | 91.17 |
-
-**Speedup Summary**
-- ResNet-18: ~4×  
-- ResNet-34: ~4.8×  
-- ResNet-50: ~5×  
+### Observations
+- Gradients remained stable across layers throughout training
+- No evidence of vanishing or exploding gradients
+- Weight updates were smooth, indicating stable optimization
 
 ---
 
+## Results
+
+- **Final Test Accuracy:** approximately 85–86%
+- Certain classes exhibited higher confusion due to visual similarity
+- The model demonstrated stable convergence with limited overfitting
+
+Additional results include confusion matrices, per-class accuracy, and prediction visualizations.
+
+---
+
+## Experiment Tracking (Weights & Biases)
+
+All experiments and visualizations were logged using Weights & Biases.
+
+**W&B Project Link:**  
+https://wandb.ai/m25csa032-iit-jodhpur/lab2_cifar10/workspace?nw=nwuserm25csa032
+
+Logged artifacts include:
+- Training and validation loss/accuracy curves
+- Gradient flow plots
+- Weight update flow plots
+- Confusion matrix
+- Sample predictions
+
+---
+
+## Repository Structure
+
+```text
+zenith_M25CSA032_lab2_worksheet/
+├── codes/        # Model, dataset, training, and utility scripts
+├── figures/      # Generated plots and visualizations
+├── logs/         # Training logs
+├── report/       # PDF report
+└── README.md     # This file
