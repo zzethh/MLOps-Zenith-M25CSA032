@@ -1,8 +1,3 @@
-#
-# ═══════════════════════════════════════════════════════════════════════════════
-# DATA CONTRACT: CityMove Ride-Share Dataset
-# ═══════════════════════════════════════════════════════════════════════════════
-#
 # NEGOTIATION SUMMARY
 # ───────────────────
 # Producer: Data Engineering Team (data-platform@citymove.com)
@@ -26,8 +21,6 @@
 #
 # Compliance Note: Contains PII subject to data protection regulations
 # Signed off: 2024-01-15 by Data Eng Lead + ML Team Lead
-#
-# ═══════════════════════════════════════════════════════════════════════════════
 
 dataContractSpecification: 0.9.3
 id: urn:datacontract:citymove:ride-share-rides

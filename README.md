@@ -38,6 +38,3 @@ Use these contracts to validate data at ingestion, document APIs/datasets, and a
 - **Course/Project:** MLOps Zenith  
 - **Identifier:** M25CSA032  
 
-## License
-
-See the repository or course materials for license and usage terms.
