@@ -1,0 +1,154 @@
+dataContractSpecification: 0.9.3
+id: urn:datacontract:fintech:bank-transaction-log
+version: 1.0.0
+
+info:
+  title: "Bank Transaction Log"
+  description: |
+    Real-time transaction records for fraud detection system.
+    Includes source and destination account identifiers along with
+    transaction timestamps for suspicious activity scanning.
+    
+    CRITICAL: Account ID format must be strictly enforced.
+    Invalid account IDs cause fraud model lookup failures,
+    potentially allowing fraudulent transactions to go undetected.
+    
+    Regulatory compliance: Subject to banking fraud detection requirements.
+  owner: "Banking Data Engineering Team"
+  contact:
+    name: "Banking Data Steward"
+    email: "banking-data@company.com"
+    slack: "#fraud-detection-ops"
+  classification: confidential
+  tags: [fintech, banking, transactions, fraud-detection, critical, regulatory]
+
+schema:
+  type: object
+  properties:
+    account_source_id:
+      type: string
+      pattern: "^[A-Z0-9]{10}$"
+      description: |
+        Source account identifier (where funds are transferred FROM).
+        
+        FORMAT REQUIREMENT (STRICT):
+        - Exactly 10 characters
+        - Uppercase letters A-Z and digits 0-9 only
+        - No special characters, no lowercase letters
+        
+        Valid examples: ABCD123456, 1234567890, A1B2C3D4E5
+        Invalid examples: abcd1234 (lowercase, 8 chars), ABC_123456 (underscore)
+        
+        Fraud detection model requires exact 10-char format for lookups.
+      pii: true
+      
+    account_destination_id:
+      type: string
+      pattern: "^[A-Z0-9]{10}$"
+      description: |
+        Destination account identifier (where funds are transferred TO).
+        
+        FORMAT REQUIREMENT (STRICT):
+        - Exactly 10 characters
+        - Uppercase letters A-Z and digits 0-9 only
+        - No special characters, no lowercase letters
+        
+        Same format requirements as account_source_id.
+      pii: true
+      
+    transaction_timestamp:
+      type: string
+      format: date-time
+      description: |
+        UTC timestamp when the transaction occurred.
+        Used for temporal fraud pattern detection.
+      pii: false
+      
+  required:
+    - account_source_id
+    - account_destination_id
+    - transaction_timestamp
+
+sla:
+  freshness:
+    threshold: "5 seconds"
+    description: "Real-time latency for fraud detection scanning"
+    
+  availability:
+    percentage: "99.99%"
+    description: "Critical uptime for fraud detection pipeline"
+    
+  retention:
+    period: "7 years"
+    description: "Regulatory retention requirement for financial transactions"
+
+quality:
+  - name: account_source_id_format
+    type: validity
+    expression: "REGEXP_LIKE(account_source_id, '^[A-Z0-9]{10}$')"
+    threshold: "100%"
+    enforcement: hard
+    description: |
+      Source account ID must be exactly 10 uppercase alphanumeric characters.
+      Pattern: ^[A-Z0-9]{10}$
+      Failure action: Pipeline HALTS, records quarantined for compliance review.
+      
+  - name: account_destination_id_format
+    type: validity
+    expression: "REGEXP_LIKE(account_destination_id, '^[A-Z0-9]{10}$')"
+    threshold: "100%"
+    enforcement: hard
+    description: |
+      Destination account ID must be exactly 10 uppercase alphanumeric characters.
+      Pattern: ^[A-Z0-9]{10}$
+      Failure action: Pipeline HALTS, records quarantined for compliance review.
+      
+  - name: source_destination_different
+    type: validity
+    expression: "account_source_id != account_destination_id"
+    threshold: "100%"
+    enforcement: hard
+    description: "Source and destination account IDs must be different (self-transfers flagged)"
+    
+  - name: transaction_timestamp_valid
+    type: validity
+    expression: "transaction_timestamp <= CURRENT_TIMESTAMP"
+    threshold: "100%"
+    enforcement: hard
+    description: "Transaction timestamp cannot be in the future"
+
+lineage:
+  sources:
+    - name: core_banking_system
+      type: postgresql
+      table: tx_log
+      description: "Core banking transaction log database"
+      
+  consumers:
+    - name: fraud-detection-engine
+      team: fraud-prevention
+      usage: "Real-time suspicious activity scanning and alerting"
+      
+    - name: regulatory-reporting
+      team: compliance
+      usage: "Mandatory fraud reporting to regulatory authorities"
+      
+    - name: transaction-monitoring-dashboard
+      team: risk-management
+      usage: "Operational monitoring of transaction patterns"
+
+terms:
+  usage: |
+    Internal fraud detection and regulatory compliance only.
+    Account IDs are encrypted at rest and in transit.
+    Access restricted to authorized fraud prevention personnel.
+  billing: "Included in banking platform infrastructure"
+  notice_period: "60 days for breaking changes (regulatory approval required)"
+  hard_circuit_breaker_policy: |
+    All quality rules enforce HARD CIRCUIT BREAKER behavior.
+    This is non-negotiable for fraud detection data integrity.
+    Any violation immediately halts data flow to prevent:
+      - Silent fraud model failures
+      - Missed fraudulent transactions  
+      - Regulatory compliance violations
+    Quarantine queue maintains invalid records for investigation.

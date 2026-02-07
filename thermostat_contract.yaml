@@ -1,0 +1,126 @@
+dataContractSpecification: 0.9.3
+id: urn:datacontract:iot:smart-thermostat-telemetry
+version: 1.0.0
+
+info:
+  title: "Smart Thermostat Fleet Telemetry"
+  description: |
+    Temperature and battery telemetry data from a fleet of 10,000 smart thermostats.
+    Data is transmitted every minute for home temperature analytics, energy efficiency
+    monitoring, and device health tracking.
+    
+    Used for "Average Home Temperature" reporting and predictive maintenance.
+  owner: "IoT Platform Engineering Team"
+  contact:
+    name: "IoT Data Steward"
+    email: "iot-platform@company.com"
+    slack: "#thermostat-fleet"
+  classification: internal
+  tags: [iot, thermostat, telemetry, temperature, battery, fleet]
+
+schema:
+  type: object
+  properties:
+    device_id:
+      type: string
+      description: |
+        Unique identifier for the thermostat device.
+        Format: Alphanumeric string (e.g., "xyz", "TH-12345").
+      pii: false
+      
+    temperature_celsius:
+      type: number
+      minimum: -30
+      maximum: 60
+      description: |
+        Ambient temperature reading in degrees Celsius.
+        Valid range: -30°C to 60°C inclusive.
+        Readings outside this range indicate sensor malfunction or calibration failure.
+        Default failure value (9999°C) is explicitly rejected.
+        
+        Typical home temperature range: 15°C to 25°C.
+      pii: false
+      
+    battery_level:
+      type: number
+      minimum: 0.0
+      maximum: 1.0
+      description: |
+        Device battery level as a decimal percentage.
+        Range: 0.0 (completely discharged) to 1.0 (fully charged) inclusive.
+        Readings outside this range indicate battery sensor malfunction.
+        
+        Values below 0.1 trigger low-battery alerts.
+      pii: false
+      
+  required:
+    - device_id
+    - temperature_celsius
+    - battery_level
+
+sla:
+  freshness:
+    threshold: "2 minutes"
+    description: "Telemetry data available within 2 minutes of device transmission"
+  availability:
+    percentage: "99.0%"
+    description: "Uptime for IoT data ingestion pipeline"
+  retention:
+    period: "1 year"
+    description: "Telemetry history for trend analysis and device health monitoring"
+
+quality:
+  - name: temperature_within_valid_range
+    type: validity
+    expression: "temperature_celsius >= -30 AND temperature_celsius <= 60"
+    threshold: "100%"
+    enforcement: hard
+    description: |
+      Temperature must be between -30°C and 60°C inclusive.
+      Rejects sensor failure default value (9999°C) and other invalid readings.
+      
+  - name: battery_level_within_valid_range
+    type: validity
+    expression: "battery_level >= 0.0 AND battery_level <= 1.0"
+    threshold: "100%"
+    enforcement: hard
+    description: |
+      Battery level must be between 0.0 and 1.0 inclusive.
+      0.0 = dead battery (valid but triggers alert)
+      1.0 = fully charged (valid)
+      Values outside this range indicate sensor malfunction.
+      
+  - name: device_id_not_null
+    type: completeness
+    column: device_id
+    threshold: "100%"
+    enforcement: hard
+    description: "Device ID is required for all telemetry records"
+      
+  - name: temperature_not_failure_default
+    type: validity
+    expression: "temperature_celsius != 9999"
+    threshold: "100%"
+    enforcement: hard
+    description: "Explicitly rejects the sensor failure default value (9999°C)"
+
+lineage:
+  sources:
+    - name: thermostat_iot_devices
+      type: iot
+      format: json
+      description: "Smart thermostat fleet sending JSON payloads every minute"
+      payload_example: '{ "dev_id": "xyz", "temp_c": 22.5, "batt_lvl": 0.85 }'
+      
+  consumers:
+    - name: average-temperature-report
+      team: home-analytics
+      usage: "Average Home Temperature reporting and trend analysis"
+      
+    - name: device-health-monitor
+      team: iot-operations
+      usage: "Predictive maintenance and battery level monitoring"
+      
+    - name: energy-efficiency-dashboard
+      team: sustainability
+      usage: "Home energy usage optimization insights"

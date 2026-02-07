@@ -1,157 +1,43 @@
-# Lab 2 – CIFAR-10 CNN with FLOPs and Training Dynamics
+# MLOps Zenith — M25CSA032
 
-**Course:** CSL7120 – ML / DL / Ops  
-**Name:** Zenith  
-**Roll Number:** M25CSA032  
-**Institute:** IIT Jodhpur  
-
----
+Data contracts for ML and analytics pipelines. This repository holds YAML data contracts defined with the [Data Contract Specification](https://datacontract.com/) (version 0.9.3) to ensure schema stability, validation, and clear ownership between producers and consumers.
 
 ## Overview
 
-This repository contains the submission for **Lab 2 – Worksheet 1**, focusing on
-training and analyzing a Convolutional Neural Network (CNN) on the **CIFAR-10**
-dataset using a **custom dataloader**.  
-Beyond accuracy, the assignment emphasizes **computational complexity (FLOPs)**,
-**gradient flow**, and **weight update flow**, with all metrics and visualizations
-logged to **Weights & Biases (W&B)**.
+Each contract describes:
 
----
+- **Schema** — field names, types, constraints, and PII flags  
+- **Quality rules** — expectations and validation (e.g. patterns, ranges, enums)  
+- **Metadata** — owner, contacts, classification, and tags  
 
-## Dataset
+Use these contracts to validate data at ingestion, document APIs/datasets, and avoid breaking changes for downstream models and dashboards.
 
-- **CIFAR-10**
-  - 50,000 training images
-  - 10,000 test images
-  - Image size: 32 × 32 × 3
-  - 10 classes
+## Contracts
 
-A custom dataset class `CustomCIFAR10` wraps
-`torchvision.datasets.CIFAR10` and applies dataset-specific transforms.
+| Contract | Description | Domain |
+|----------|-------------|--------|
+| **fintech_contract.yaml** | Bank Transaction Log — real-time transaction records for fraud detection. Enforces strict account ID format (10-char `A-Z0-9`). | Fintech, Banking |
+| **orders_contract.yaml** | Black Friday Flash Sale Orders — real-time order stream for marketing dashboards. Enforces non-negative `order_total_usd` and mapped status enum (`PAID`, `SHIPPED`, `CANCELLED`). | E-commerce |
+| **rides_contract.yaml** | CityMove Ride-Share Rides — operational ride data for dynamic pricing ML. Defines stable field names (e.g. `fare_final`), freshness SLA, and PII handling for `passenger_id`. | Ride-share, ML |
+| **thermostat_contract.yaml** | Smart Thermostat Fleet Telemetry — temperature and battery telemetry from a fleet of smart thermostats for reporting and predictive maintenance. Validates temperature range (-30°C–60°C) and device identifiers. | IoT |
 
-### Transforms
-- **Training**
-  - Random crop (32, padding=4)
-  - Random horizontal flip
-  - Normalization using CIFAR-10 statistics
-- **Testing**
-  - Normalization only
+## Contract structure (Data Contract Spec 0.9.3)
 
----
+- **info** — `title`, `description`, `owner`, `contact`, `classification`, `tags`
+- **schema** — JSON Schema-style `properties` with types, patterns, enums, min/max, and `pii` flags
+- **quality** (where present) — expectations and rules for data validation
 
-## Model Architecture
+## Usage
 
-The selected model is a lightweight **SimpleCNN** designed for CIFAR-10:
+- **Producers:** Emit or store data that conforms to these schemas and run validation (e.g. schema + quality checks) before publishing.
+- **Consumers:** Use the contracts as the single source of truth for field names, types, and constraints when building pipelines, models, or dashboards.
+- **Tooling:** Validate payloads or files against the YAML contracts using a Data Contract–compatible validator or custom scripts that load the YAML and apply the schema/quality rules.
 
-- **4 convolutional blocks**
-  - Conv2D → BatchNorm → ReLU → MaxPool
-  - Channels: 32 → 64 → 128 → 128
-- **Fully connected layers**
-  - 128 × 8 × 8 → 512 → 10
-- **Dropout**
-  - 0.5 before the final classifier
+## Repository
 
-This architecture balances accuracy and computational cost while remaining
-well-suited to low-resolution images.
+- **Course/Project:** MLOps Zenith  
+- **Identifier:** M25CSA032  
 
----
+## License
 
-## Training Configuration
-
-- **Epochs:** 30  
-- **Optimizer:** Adam  
-- **Learning rate:** 0.001  
-- **Loss function:** Cross-Entropy  
-- **Batch size:** 128  
-- **Device:** CUDA (if available), otherwise CPU  
-
-Training and evaluation metrics are logged to W&B at every epoch.
-
----
-
-## FLOPs Analysis
-
-FLOPs are computed using forward-pass hooks over all `Conv2D` and `Linear` layers.
-
-### FLOPs Formula
-- **Convolution:**  
-  `2 × Cin × Cout × Kh × Kw × Hout × Wout`
-- **Linear:**  
-  `2 × in_features × out_features`
-
-- **Input shape:** `(1, 3, 32, 32)`
-
-### Result
-- **0.1612 GFLOPs per sample**
-
-This value represents the computational cost of a single forward pass and is
-logged to W&B.
-
----
-
-## Results
-
-### Final Performance
-- **Final test accuracy:** **84.54%**
-- Training loss decreased from **1.79 → 0.52**
-- Validation accuracy steadily increased and stabilized after ~25 epochs
-
-### Training Behavior
-- Stable convergence
-- No severe overfitting
-- Validation accuracy closely tracks training accuracy
-
----
-
-## Gradient and Weight Flow Analysis
-
-To analyze training stability:
-
-### Gradient Flow
-- Mean and maximum gradient magnitudes per layer
-- Logged after backpropagation
-
-### Weight Flow
-- Mean and maximum weight magnitudes per layer
-- Logged during training
-
-### Observations
-- No vanishing or exploding gradients
-- Stable weight magnitudes across layers
-- Healthy learning dynamics throughout training
-
-All gradient and weight flow visualizations are logged to W&B.
-
----
-
-## Visualizations Logged to W&B
-
-- Training and validation loss curves
-- Training and validation accuracy curves
-- Gradient flow (layer-wise)
-- Weight update flow (layer-wise)
-- Confusion matrix (test set)
-- Per-class accuracy
-- Sample predictions (correct vs incorrect)
-
----
-
-## Experiment Tracking (Weights & Biases)
-
-All experiments and visualizations are publicly available.
-
-**W&B Project Link:**  
-https://wandb.ai/lab72343/lab2_cifar10
-
----
-
-## Repository Structure
-
-```text
-lab2_worksheet1/
-│
-├── codes/        # Training, model, FLOPs, and visualization code
-├── figures/      # Generated plots (if saved locally)
-├── logs/         # Training logs
-├── report/       # Final PDF report
-└── README.md     # This file
+See the repository or course materials for license and usage terms.

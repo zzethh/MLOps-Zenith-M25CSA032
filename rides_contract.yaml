@@ -1,0 +1,159 @@
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+# DATA CONTRACT: CityMove Ride-Share Dataset
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# NEGOTIATION SUMMARY
+# ───────────────────
+# Producer: Data Engineering Team (data-platform@citymove.com)
+# Consumer: Machine Learning Team - Dynamic Pricing Algorithm (ml-team@citymove.com)
+#
+# Incident Context:
+#   - Schema change (cost_total → fare_final) caused 4-hour ML model outage
+#   - Financial impact: $50,000 in lost revenue
+#   - CTO mandate: Implement stable data contract interface
+#
+# Agreed Terms:
+#   - Producer commits to 30-minute freshness SLA (aligned with hourly model retraining)
+#   - All cryptic DB column names mapped to business-friendly logical names
+#   - Hard enforcement on all quality rules to prevent bad data from reaching ML model
+#   - PII field (passenger_id) flagged with restricted access requirements
+#   - Producer maintains backward compatibility for any future schema changes
+#
+# Trade-offs:
+#   - Consumer accepts slight latency increase for stronger quality guarantees
+#   - Producer implements circuit breaker to halt data flow on validation failures
+#
+# Compliance Note: Contains PII subject to data protection regulations
+# Signed off: 2024-01-15 by Data Eng Lead + ML Team Lead
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+dataContractSpecification: 0.9.3
+id: urn:datacontract:citymove:ride-share-rides
+version: 1.0.0
+
+info:
+  title: "CityMove Ride-Share Rides Dataset"
+  description: |
+    Operational ride data from CityMove ride-sharing platform.
+    Includes ride identifiers, timestamps, passenger information, driver ratings,
+    fare amounts, and distance traveled. Used primarily by the Dynamic Pricing
+    ML model for real-time fare optimization and demand forecasting.
+    
+    WARNING: Contains PII (passenger_id). Access restricted to authorized personnel.
+  owner: "Data Engineering Team"
+  contact:
+    name: "CityMove Data Steward"
+    email: "data-platform@citymove.com"
+    slack: "#ride-data-support"
+  classification: confidential
+  tags: [rideshare, pricing, ml, pii, operational, real-time]
+
+schema:
+  type: object
+  properties:
+    ride_id:
+      type: string
+      description: "Unique identifier for each ride transaction."
+      pii: false
+
+    pickup_timestamp:
+      type: string
+      format: date-time
+      description: "UTC timestamp when the ride pickup occurred."
+      pii: false
+
+    passenger_id:
+      type: integer
+      description: "Unique identifier for the passenger. Contains PII."
+      pii: true
+
+    driver_rating:
+      type: number
+      minimum: 1.0
+      maximum: 5.0
+      description: "Driver rating at time of ride (1.0 to 5.0 inclusive)."
+      pii: false
+
+    fare_usd:
+      type: number
+      minimum: 0
+      description: "Total fare amount charged for the ride in USD."
+      pii: false
+
+    distance_meters:
+      type: integer
+      description: "Total distance traveled during the ride in meters."
+      pii: false
+
+  required:
+    - ride_id
+    - pickup_timestamp
+    - passenger_id
+    - driver_rating
+    - fare_usd
+    - distance_meters
+
+sla:
+  freshness:
+    threshold: "30 minutes"
+    description: "Data must be available within 30 minutes of ride completion."
+  availability:
+    percentage: "99.9%"
+    description: "Monthly uptime commitment."
+  retention:
+    period: "2 years"
+    description: "Operational retention for pricing analysis."
+
+quality:
+  - name: fare_non_negative
+    type: validity
+    expression: "fare_usd >= 0"
+    threshold: "100%"
+    enforcement: hard
+    description: "Fare amount must be non-negative."
+
+  - name: driver_rating_in_range
+    type: validity
+    expression: "driver_rating >= 1.0 AND driver_rating <= 5.0"
+    threshold: "100%"
+    enforcement: hard
+    description: "Driver rating must be between 1.0 and 5.0 inclusive."
+
+  - name: distance_not_null
+    type: completeness
+    column: distance_meters
+    threshold: "100%"
+    enforcement: hard
+    description: "Distance must not be null."
+
+  - name: ride_id_unique
+    type: uniqueness
+    column: ride_id
+    threshold: "100%"
+    enforcement: hard
+    description: "Each ride must have a unique identifier."
+
+  - name: pickup_timestamp_valid
+    type: validity
+    expression: "pickup_timestamp <= CURRENT_TIMESTAMP"
+    threshold: "100%"
+    enforcement: hard
+    description: "Pickup timestamp cannot be in the future."
+
+lineage:
+  sources:
+    - name: citymove_postgres_db
+      type: postgresql
+      table: raw_rides_log_v2
+      description: "Operational PostgreSQL database."
+
+  consumers:
+    - name: dynamic-pricing-ml-model
+      team: machine-learning
+      usage: "Real-time fare optimization and demand prediction."
+
+    - name: ride-analytics-dashboard
+      team: business-intelligence
+      usage: "Operational KPI reporting."

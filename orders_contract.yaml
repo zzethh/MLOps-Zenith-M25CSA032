@@ -1,0 +1,90 @@
+dataContractSpecification: 0.9.3
+id: urn:datacontract:ecommerce:flash-sale-orders
+version: 1.0.0
+
+info:
+  title: "Black Friday Flash Sale Orders"
+  description: |
+    Real-time order stream from e-commerce platform during flash sale events.
+    Used by Marketing Dashboard team for dynamic ad spend optimization.
+    
+    Historical issues included negative order totals and unmapped status codes
+    crashing downstream dashboards. This contract prevents recurrence.
+  owner: "E-commerce Data Engineering Team"
+  contact:
+    name: "E-commerce Data Steward"
+    email: "ecommerce-data@company.com"
+    slack: "#flash-sale-ops"
+  classification: internal
+  tags: [ecommerce, orders, real-time, marketing, black-friday]
+
+schema:
+  type: object
+  properties:
+
+    order_total_usd:
+      type: number
+      minimum: 0
+      description: |
+        Total order value in USD including taxes and discounts.
+        Must be zero or positive. Negative values are invalid.
+      pii: false
+
+    status:
+      type: string
+      enum: [PAID, SHIPPED, CANCELLED]
+      description: |
+        Human-readable order status.
+        Physical mapping:
+          2 → PAID
+          5 → SHIPPED
+          9 → CANCELLED
+        Any other status_code is rejected at ingestion.
+      pii: false
+
+  required:
+    - order_total_usd
+    - status
+
+sla:
+  freshness:
+    threshold: "1 minute"
+    description: "Near real-time availability for ad spend adjustments"
+  availability:
+    percentage: "99.5%"
+    description: "High availability during flash sale events"
+  retention:
+    period: "90 days"
+    description: "Retention for campaign performance analysis"
+
+quality:
+
+  - name: order_total_non_negative
+    type: validity
+    expression: "order_total_usd >= 0"
+    threshold: "100%"
+    enforcement: hard
+    description: "Prevents negative order totals from breaking reports"
+
+  - name: status_code_valid_mapping
+    type: validity
+    expression: "status IN ('PAID','SHIPPED','CANCELLED')"
+    threshold: "100%"
+    enforcement: hard
+    description: |
+      Ensures only mapped status codes (2,5,9) are accepted.
+      Any unmapped status_code (e.g., 7) fails validation and blocks pipeline.
+
+lineage:
+  sources:
+    - name: ecommerce_orders_db
+      type: postgresql
+      table: orders_raw
+      description: "Raw orders table containing o_total and status_code"
+  consumers:
+    - name: marketing-dashboard
+      team: marketing-analytics
+      usage: "Real-time ad spend optimization"
+    - name: sales-reporting
+      team: business-intelligence
+      usage: "Sales performance analysis"
