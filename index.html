@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Zenith - Repository Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --sidebar-bg: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+        }
+
+        nav ul { list-style: none; }
+        nav li { margin-bottom: 0.5rem; }
+        
+        .nav-btn {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 3rem;
+            max-width: 1200px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .content-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 { margin-bottom: 1.5rem; color: var(--text-main); }
+        p { margin-bottom: 1rem; line-height: 1.7; color: var(--text-muted); }
+
+        .markdown-body {
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+        
+        .markdown-body h1, .markdown-body h2 {
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .markdown-body code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .markdown-body pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .report-info { display: flex; align-items: center; gap: 15px; }
+        .report-icon { font-size: 2rem; color: #f87171; }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-download:hover { background: var(--primary-hover); }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            aside { width: 80px; padding: 2rem 0.5rem; }
+            .logo span, .nav-btn span { display: none; }
+            .nav-btn { justify-content: center; padding: 1rem; }
+            main { margin-left: 80px; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="logo">
+            <i class="fas fa-rocket"></i>
+            <span>MLOps Hub</span>
+        </div>
+        <nav>
+            <ul id="nav-list">
+                <!-- Nav items added via JS -->
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main-content">
+        <!-- Content sections added via JS -->
+    </main>
+
+    <script>
+        const data = [
+    {
+        "id": "main",
+        "label": "Home",
+        "branch": "main",
+        "readme": "# CSL7120 \u2013 ML / DL / Ops Course Submissions\n\nThis repository contains all my submissions for the course **CSL7120 (Machine Learning, Deep Learning & Operations)**.\n\n## Branch Structure\n- `main` \u2013 Repository overview and course-level information\n- `Assignment-1` \u2013 Deep Learning Assignment 1\n- `lab2_worksheet1` \u2013 Lab 2 Worksheet 1\n\nEach assignment/lab is maintained in its **own branch**.",
+        "report": ""
+    },
+    {
+        "id": "assignment_1",
+        "label": "Assignment 1",
+        "branch": "Assignment-1",
+        "readme": "# DL-Ops Assignment 1: Deep Learning & Hardware Benchmarking\n\n**Name:** Zenith  \n**Roll Number:** M25CSA032  \n**Department:** Computer Science  \n\n---\n\n##  Abstract\nThis repository presents a comprehensive benchmarking study of deep learning and classical\nmachine learning models on the MNIST and FashionMNIST datasets. We evaluate **ResNet-18**\nand **ResNet-50** architectures against classical **Support Vector Machines (SVMs)** and\nanalyze the impact of **hardware acceleration (CPU vs GPU)**.\n\nAll experiments were conducted on the **DPU\u2013GPU HPC Cluster** (Dual Intel Xeon Gold 6326 +\nNVIDIA A30 GPUs). A **70\u201310\u201320 train\u2013validation\u2013test split** and **Automatic Mixed Precision\n(AMP)** were used for all deep learning experiments.\n\n---\n\n##  Submission Links\n- **Google Colab Notebook (Executed):**  \n  https://colab.research.google.com/drive/1WvjjTIT6QyN_ygidWWWAq5B-FjpUng4_?usp=sharing\n\n- **GitHub Repository:**  \n  https://github.com/zzethh/MLOps-Zenith-M25CSA032.git\n\n- **GitHub Pages:**  \n  https://zzethh.github.io/MLOps-Zenith-M25CSA032/\n\n---\n\n##  System Specifications\n- **CPU:** Dual Intel Xeon Gold 6326  \n  - 2 Physical sockets  \n  - 32 cores total (16 per socket)  \n  - Base frequency: 2.90 GHz  \n\n- **GPU:** 2\u00d7 NVIDIA A30 Tensor Core GPUs  \n  - 24 GB VRAM per GPU  \n\n- **RAM:** 256 GB DDR4  \n\n- **Networking:** NVIDIA BlueField-2 DPU  \n  - Data-path offloading for improved throughput  \n\n---\n\n##  Experimental Settings\n- **Dataset Split:** 70% Train / 10% Validation / 20% Test  \n- **Framework:** PyTorch  \n- **Automatic Mixed Precision (AMP):** Enabled  \n\n### Training Parameters\n- **Epochs:** 4 and 10  \n- **pin_memory:** True and False  \n\n---\n\n##  Q1 (A): ResNet Hyperparameter Benchmarking\n\nAll combinations of the following parameters were evaluated:\n\n- Dataset \u2208 {MNIST, FashionMNIST}  \n- Model \u2208 {ResNet-18, ResNet-50}  \n- Batch Size \u2208 {16, 32}  \n- Optimizer \u2208 {SGD, Adam}  \n- Learning Rate \u2208 {0.001, 0.0001}  \n- Epochs \u2208 {4, 10}  \n- pin_memory \u2208 {True, False}  \n\n### Complete Results (All Runs)\n\n| Dataset | Model | BS | Optimizer | LR | Epochs | PinMem | Test Acc (%) | Time (s) |\n|--------|-------|----|-----------|----|--------|--------|--------------|----------|\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 99.24 | 174.54 |\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 99.27 | 298.57 |\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **99.41** | 401.63 |\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 99.41 | 729.87 |\n| MNIST | ResNet-18 | 32 | SGD | 0.001 | 4 | True | 98.95 | 186.42 |\n| MNIST | ResNet-18 | 32 | SGD | 0.001 | 10 | True | 99.12 | 382.71 |\n| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | True | **99.28** | 611.36 |\n| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | True | 91.57 | 147.15 |\n| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | False | 92.06 | 295.59 |\n| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | True | **92.80** | 357.84 |\n| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | False | 92.49 | 739.60 |\n| FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | True | **92.91** | 990.71 |\n| FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | False | 91.95 | 1240.52 |\n\n**Key Observations**\n- Increasing epochs from **4 \u2192 10** improves accuracy by ~0.3\u20130.5%.\n- **pin_memory=True** reduces data-loading overhead, giving ~2\u00d7 speedup.\n- **ResNet-18** provides the best accuracy\u2013time trade-off for small images.\n\n---\n\n##  Training Dynamics & Convergence Analysis\n\n### MNIST \u2013 ResNet-18 (10 Epochs, pin_memory=True)\n![MNIST Convergence](figures/1a_MNIST_Training_Dynamics.png)\n\n### FashionMNIST \u2013 ResNet-18 (10 Epochs, pin_memory=True)\n![FashionMNIST Convergence](figures/1a_FashionMNIST_Training_Dynamics.png)\n\n**Observation**\n- Training loss decreases smoothly, indicating stable optimization.\n- Validation accuracy saturates after ~6\u20137 epochs.\n- No overfitting is observed.\n\n---\n\n##  Q1 (B): SVM Classification Results (CPU Only)\n\n| Dataset | Kernel | Test Acc (%) | Training Time (ms) |\n|--------|--------|--------------|--------------------|\n| MNIST | Polynomial | 97.71 | 169,357 |\n| MNIST | RBF | **97.92** | 162,137 |\n| FashionMNIST | Polynomial | 86.30 | 279,310 |\n| FashionMNIST | RBF | **88.28** | 222,573 |\n\n**Conclusion:**  \nSVMs achieve reasonable accuracy but are significantly slower and do not scale well for\nlarge image datasets.\n\n---\n\n##  Q2: Hardware Acceleration (CPU vs GPU)\n\n### Adam Optimizer (10 Epochs, pin_memory=True)\n\n| Device | Model | Time (s) | Final Acc (%) |\n|-------|-------|----------|----------------|\n| CPU | ResNet-18 | 3161.05 | 92.74 |\n| GPU (A30) | ResNet-18 | **780.54** | 92.83 |\n| CPU | ResNet-34 | 5502.84 | 92.51 |\n| GPU (A30) | ResNet-34 | **1140.24** | 92.81 |\n| CPU | ResNet-50 | 7221.72 | 92.72 |\n| GPU (A30) | ResNet-50 | **1432.99** | 92.19 |\n\n### SGD Optimizer (10 Epochs, pin_memory=True)\n\n| Device | Model | Time (s) | Final Acc (%) |\n|-------|-------|----------|----------------|\n| CPU | ResNet-18 | 2724.24 | 91.61 |\n| GPU (A30) | ResNet-18 | **707.64** | 92.42 |\n| CPU | ResNet-34 | 4684.85 | 91.80 |\n| GPU (A30) | ResNet-34 | **1088.74** | 91.17 |\n| CPU | ResNet-50 | 6284.05 | 91.41 |\n| GPU (A30) | ResNet-50 | **1265.14** | 91.17 |\n\n**Speedup Summary**\n- ResNet-18: ~4\u00d7  \n- ResNet-34: ~4.8\u00d7  \n- ResNet-50: ~5\u00d7  \n\n---",
+        "report": "public/reports/Assignment-1/M25CSA032_Zenith_Ass1.pdf"
+    },
+    {
+        "id": "assignment_2",
+        "label": "Assignment 2",
+        "branch": "Assignment-2",
+        "readme": "# MLOps Zenith \u2014 M25CSA032\n\nData contracts for ML and analytics pipelines. This repository holds YAML data contracts defined with the [Data Contract Specification](https://datacontract.com/) (version 0.9.3) to ensure schema stability, validation, and clear ownership between producers and consumers.\n\n## Overview\n\nEach contract describes:\n\n- **Schema** \u2014 field names, types, constraints, and PII flags  \n- **Quality rules** \u2014 expectations and validation (e.g. patterns, ranges, enums)  \n- **Metadata** \u2014 owner, contacts, classification, and tags  \n\nUse these contracts to validate data at ingestion, document APIs/datasets, and avoid breaking changes for downstream models and dashboards.\n\n## Contracts\n\n| Contract | Description | Domain |\n|----------|-------------|--------|\n| **fintech_contract.yaml** | Bank Transaction Log \u2014 real-time transaction records for fraud detection. Enforces strict account ID format (10-char `A-Z0-9`). | Fintech, Banking |\n| **orders_contract.yaml** | Black Friday Flash Sale Orders \u2014 real-time order stream for marketing dashboards. Enforces non-negative `order_total_usd` and mapped status enum (`PAID`, `SHIPPED`, `CANCELLED`). | E-commerce |\n| **rides_contract.yaml** | CityMove Ride-Share Rides \u2014 operational ride data for dynamic pricing ML. Defines stable field names (e.g. `fare_final`), freshness SLA, and PII handling for `passenger_id`. | Ride-share, ML |\n| **thermostat_contract.yaml** | Smart Thermostat Fleet Telemetry \u2014 temperature and battery telemetry from a fleet of smart thermostats for reporting and predictive maintenance. Validates temperature range (-30\u00b0C\u201360\u00b0C) and device identifiers. | IoT |\n\n## Contract structure (Data Contract Spec 0.9.3)\n\n- **info** \u2014 `title`, `description`, `owner`, `contact`, `classification`, `tags`\n- **schema** \u2014 JSON Schema-style `properties` with types, patterns, enums, min/max, and `pii` flags\n- **quality** (where present) \u2014 expectations and rules for data validation\n\n## Usage\n\n- **Producers:** Emit or store data that conforms to these schemas and run validation (e.g. schema + quality checks) before publishing.\n- **Consumers:** Use the contracts as the single source of truth for field names, types, and constraints when building pipelines, models, or dashboards.\n- **Tooling:** Validate payloads or files against the YAML contracts using a Data Contract\u2013compatible validator or custom scripts that load the YAML and apply the schema/quality rules.\n\n## Repository\n\n- **Course/Project:** MLOps Zenith  \n- **Identifier:** M25CSA032",
+        "report": ""
+    },
+    {
+        "id": "lab2_worksheet1",
+        "label": "Lab 2",
+        "branch": "lab2_worksheet1",
+        "readme": "# Lab 2 \u2013 CIFAR-10 CNN with FLOPs and Training Dynamics\n\n**Course:** CSL7120 \u2013 ML / DL / Ops  \n**Name:** Zenith  \n**Roll Number:** M25CSA032  \n**Institute:** IIT Jodhpur  \n\n---\n\n## Overview\n\nThis repository contains the submission for **Lab 2 \u2013 Worksheet 1**, focusing on\ntraining and analyzing a Convolutional Neural Network (CNN) on the **CIFAR-10**\ndataset using a **custom dataloader**.  \nBeyond accuracy, the assignment emphasizes **computational complexity (FLOPs)**,\n**gradient flow**, and **weight update flow**, with all metrics and visualizations\nlogged to **Weights & Biases (W&B)**.\n\n---\n\n## Dataset\n\n- **CIFAR-10**\n  - 50,000 training images\n  - 10,000 test images\n  - Image size: 32 \u00d7 32 \u00d7 3\n  - 10 classes\n\nA custom dataset class `CustomCIFAR10` wraps\n`torchvision.datasets.CIFAR10` and applies dataset-specific transforms.\n\n### Transforms\n- **Training**\n  - Random crop (32, padding=4)\n  - Random horizontal flip\n  - Normalization using CIFAR-10 statistics\n- **Testing**\n  - Normalization only\n\n---\n\n## Model Architecture\n\nThe selected model is a lightweight **SimpleCNN** designed for CIFAR-10:\n\n- **4 convolutional blocks**\n  - Conv2D \u2192 BatchNorm \u2192 ReLU \u2192 MaxPool\n  - Channels: 32 \u2192 64 \u2192 128 \u2192 128\n- **Fully connected layers**\n  - 128 \u00d7 8 \u00d7 8 \u2192 512 \u2192 10\n- **Dropout**\n  - 0.5 before the final classifier\n\nThis architecture balances accuracy and computational cost while remaining\nwell-suited to low-resolution images.\n\n---\n\n## Training Configuration\n\n- **Epochs:** 30  \n- **Optimizer:** Adam  \n- **Learning rate:** 0.001  \n- **Loss function:** Cross-Entropy  \n- **Batch size:** 128  \n- **Device:** CUDA (if available), otherwise CPU  \n\nTraining and evaluation metrics are logged to W&B at every epoch.\n\n---\n\n## FLOPs Analysis\n\nFLOPs are computed using forward-pass hooks over all `Conv2D` and `Linear` layers.\n\n### FLOPs Formula\n- **Convolution:**  \n  `2 \u00d7 Cin \u00d7 Cout \u00d7 Kh \u00d7 Kw \u00d7 Hout \u00d7 Wout`\n- **Linear:**  \n  `2 \u00d7 in_features \u00d7 out_features`\n\n- **Input shape:** `(1, 3, 32, 32)`\n\n### Result\n- **0.1612 GFLOPs per sample**\n\nThis value represents the computational cost of a single forward pass and is\nlogged to W&B.\n\n---\n\n## Results\n\n### Final Performance\n- **Final test accuracy:** **84.54%**\n- Training loss decreased from **1.79 \u2192 0.52**\n- Validation accuracy steadily increased and stabilized after ~25 epochs\n\n### Training Behavior\n- Stable convergence\n- No severe overfitting\n- Validation accuracy closely tracks training accuracy\n\n---\n\n## Gradient and Weight Flow Analysis\n\nTo analyze training stability:\n\n### Gradient Flow\n- Mean and maximum gradient magnitudes per layer\n- Logged after backpropagation\n\n### Weight Flow\n- Mean and maximum weight magnitudes per layer\n- Logged during training\n\n### Observations\n- No vanishing or exploding gradients\n- Stable weight magnitudes across layers\n- Healthy learning dynamics throughout training\n\nAll gradient and weight flow visualizations are logged to W&B.\n\n---\n\n## Visualizations Logged to W&B\n\n- Training and validation loss curves\n- Training and validation accuracy curves\n- Gradient flow (layer-wise)\n- Weight update flow (layer-wise)\n- Confusion matrix (test set)\n- Per-class accuracy\n- Sample predictions (correct vs incorrect)\n\n---\n\n## Experiment Tracking (Weights & Biases)\n\nAll experiments and visualizations are publicly available.\n\n**W&B Project Link:**  \nhttps://wandb.ai/lab72343/lab2_cifar10\n\n---\n\n## Repository Structure\n\n```text\nlab2_worksheet1/\n\u2502\n\u251c\u2500\u2500 codes/        # Training, model, FLOPs, and visualization code\n\u251c\u2500\u2500 figures/      # Generated plots (if saved locally)\n\u251c\u2500\u2500 logs/         # Training logs\n\u251c\u2500\u2500 report/       # Final PDF report\n\u2514\u2500\u2500 README.md     # This file",
+        "report": "public/reports/lab2_worksheet1/M25CSA032_Zenith_Worksheet1.pdf"
+    }
+];
+
+        const navList = document.getElementById('nav-list');
+        const mainContent = document.getElementById('main-content');
+
+        const icons = {
+            'main': 'fas fa-home',
+            'assignment-1': 'fas fa-code-branch',
+            'assignment-2': 'fas fa-microchip',
+            'lab2_worksheet1': 'fas fa-flask'
+        };
+
+        function render() {
+            data.forEach((item, index) => {
+                // Create Nav item
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <button class="nav-btn ${index === 0 ? 'active' : ''}" onclick="showSection('${item.id}', this)">
+                        <i class="${icons[item.branch] || 'fas fa-folder'}"></i>
+                        <span>${item.label}</span>
+                    </button>
+                `;
+                navList.appendChild(li);
+
+                // Create Content section
+                const section = document.createElement('section');
+                section.id = `section-${item.id}`;
+                section.className = `content-section ${index === 0 ? 'active' : ''}`;
+                
+                let contentHTML = `
+                    <h1>${item.label}</h1>
+                    <div class="markdown-body">
+                        ${marked.parse(item.readme || '*No README found in this branch.*')}
+                    </div>
+                `;
+
+                if (item.report) {
+                    contentHTML += `
+                        <div class="report-card">
+                            <div class="report-info">
+                                <i class="fas fa-file-pdf report-icon"></i>
+                                <div>
+                                    <h3>Project Report</h3>
+                                    <p>Official documentation and analysis for this assignment.</p>
+                                </div>
+                            </div>
+                            <a href="${item.report}" target="_blank" class="btn-download">
+                                <i class="fas fa-eye"></i> View Report
+                            </a>
+                        </div>
+                    `;
+                }
+
+                section.innerHTML = contentHTML;
+                mainContent.appendChild(section);
+            });
+        }
+
+        window.showSection = (id, btn) => {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`section-${id}`).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        render();
+    </script>
+</body>
+</html>
