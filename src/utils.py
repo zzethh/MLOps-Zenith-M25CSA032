@@ -45,11 +45,16 @@ def plot_confusion_matrix(y_true, y_pred, labels, output_path):
     print(f"Confusion matrix saved to {output_path}")
 
 
-def plot_training_history(model_path, output_path):
-    state_file = os.path.join(model_path, "trainer_state.json")
+def plot_training_history(output_dir, output_path):
+    state_file = os.path.join(output_dir, "trainer_state.json")
     if not os.path.exists(state_file):
         print("No trainer_state.json found. Skipping loss plot.")
         return
+
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
 
     with open(state_file, "r") as f:
         data = json.load(f)

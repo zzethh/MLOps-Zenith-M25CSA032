@@ -40,10 +40,8 @@ def main(args):
     with open(os.path.join(output_dir, "eval_results.json"), "w") as f:
         json.dump(metrics, f, indent=4)
 
-    # Save trainer state for loss plotting
     trainer.save_state()
 
-    # Generate Training Loss Plot
     from utils import plot_training_history
 
     plot_training_history(output_dir, os.path.join(output_dir, "training_loss.png"))
