@@ -332,6 +332,14 @@
           report:
             "public/reports/lab2_worksheet1/M25CSA032_Zenith_Worksheet1.pdf",
         },
+        {
+          id: "assignment_3",
+          label: "Assignment 3",
+          branch: "Assignment-3",
+          readme:
+            "# End-to-End Hugging Face Model Training & Docker Deployment\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Overview\nImplemented a complete MLOps workflow for a **GoodReads BERT Classifier** using **DistilBERT** and **Hugging Face** tools. The project involves fine-tuning, containerization with **Docker**, and automated evaluation.\n\n---\n\n## Key Results\n| Metric | Value |\n|:---|:---|\n| **Accuracy** | **87.20%** |\n| **F1 Score** | **87.60%** |\n| **Recall** | **91.87%** |\n\n---\n\n## Artifacts\n- **Hugging Face Model:** [Zenith754/goodreads-bert-classifier](https://huggingface.co/Zenith754/goodreads-bert-classifier/tree/main)\n- **Docker Image:** `mlops-assignment`\n\n---\n\n## Workflow\n1.  **Fine-tuning:** Trained on IMDb dataset.\n2.  **Docker:** Containerized environment for reproducibility.\n3.  **CI/CD:** Scripts for automated evaluation.",
+          report: "",
+        },
       ];
 
       const navList = document.getElementById("nav-list");
@@ -341,6 +349,7 @@
         assignment_1: "fas fa-bolt",
         assignment_2: "fas fa-shield-halved",
         lab2_worksheet1: "fas fa-flask-vial",
+        assignment_3: "fas fa-box",
       };
 
       function render() {
