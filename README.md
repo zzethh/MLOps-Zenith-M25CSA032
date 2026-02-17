@@ -43,16 +43,10 @@ Build the Docker image:
 docker build -t mlops-assignment .
 ```
 
-Run the container (this will automatically run the evaluation script):
+Run the container with volume mounting to save results:
 
 ```bash
-docker run mlops-assignment
-```
-
-You can also run it interactively to explore:
-
-```bash
-docker run -it mlops-assignment /bin/bash
+docker run --rm -v $(pwd)/results:/app/results mlops-assignment
 ```
 
 ### 3. Running Locally

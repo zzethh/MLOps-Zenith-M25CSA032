@@ -34,7 +34,25 @@ Per the assignment guidelines, the code, model, and artifacts are available at:
 We selected \texttt{distilbert-base-cased} for this task. DistilBERT is a small, fast, cheap and light Transformer model trained by distilling Bert base. It has 40\% less parameters than bert-base-uncased, runs 60\% faster while preserving over 95\% of BERT's performances. This makes it an ideal candidate for resource-constrained environments often encountered in MLOps deployments.
 
 \subsection{Training Process}
-The model was fine-tuned on the IMDb dataset, a standard benchmark for binary sentiment classification. We utilized the Hugging Face \texttt{Trainer} API for efficient training loop management, including logging and evaluation. The training pipeline was containerized using Docker to ensure reproducibility across different environments.
+The model was fine-tuned on the IMDb dataset, a standard benchmark for binary sentiment classification. We utilized the Hugging Face \texttt{Trainer} API for efficient training loop management.
+
+\subsubsection{Hyperparameters}
+The training configuration was set as follows:
+\begin{itemize}
+    \item \textbf{Batch Size}: 16 (Auto-adjusted for memory)
+    \item \textbf{Learning Rate}: $2 \times 10^{-5}$
+    \item \textbf{Epochs}: 3
+    \item \textbf{Optimizer}: AdamW
+\end{itemize}
+
+\subsection{Docker Implementation}
+To ensure reproducibility, the entire training and evaluation pipeline was containerized. The Dockerfile utilizes a lightweight Python 3.9 slim base image. Key steps include:
+\begin{enumerate}
+    \item Installing dependencies from \texttt{requirements.txt}.
+    \item Copying source code and configuration files.
+    \item Setting the entry point to automatically run the evaluation script upon container startup.
+\end{enumerate}
+This approach allows for consistent execution across different computing environments, mitigating "it works on my machine" issues.
 
 \section{Evaluation Results}
 
