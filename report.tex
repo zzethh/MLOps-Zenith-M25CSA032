@@ -1,0 +1,87 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+
+\geometry{margin=1in}
+
+\title{Assignment 3: End-to-End Hugging Face Model Training \& Docker Deployment}
+\author{Zenith (M25CSA032) \\ Department of Computer Science}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report details the implementation of an end-to-end machine learning workflow for sentiment analysis using a DistilBERT model. The project encompasses model fine-tuning, containerization with Docker, and deployment to Hugging Face. We achieved an accuracy of 87.2\% and an F1 score of 87.6\% on the evaluation dataset. This document serves as a comprehensive summary of the model selection, training process, and evaluation metrics, fulfilling the requirements for Assignment 3.
+\end{abstract}
+
+\section{Submission Links}
+Per the assignment guidelines, the code, model, and artifacts are available at:
+\begin{itemize}
+    \item \textbf{GitHub Repository}: \href{https://github.com/zzethh/MLOps-Zenith-M25CSA032}{Click Here to Open Repository}
+    \item \textbf{Hugging Face Model}: \href{https://huggingface.co/Zenith754/goodreads-bert-classifier/tree/main}{Click Here to Open Model Card}
+\end{itemize}
+
+\section{Methodology}
+
+\subsection{Model Selection}
+We selected \texttt{distilbert-base-cased} for this task. DistilBERT is a small, fast, cheap and light Transformer model trained by distilling Bert base. It has 40\% less parameters than bert-base-uncased, runs 60\% faster while preserving over 95\% of BERT's performances. This makes it an ideal candidate for resource-constrained environments often encountered in MLOps deployments.
+
+\subsection{Training Process}
+The model was fine-tuned on the IMDb dataset, a standard benchmark for binary sentiment classification. We utilized the Hugging Face \texttt{Trainer} API for efficient training loop management, including logging and evaluation. The training pipeline was containerized using Docker to ensure reproducibility across different environments.
+
+\section{Evaluation Results}
+
+\subsection{Quantitative Metrics}
+The model was evaluated on the held-out test set. The results are summarized in Table \ref{tab:results}.
+
+\begin{table}[H]
+    \centering
+    \caption{Evaluation Metrics}
+    \label{tab:results}
+    \begin{tabular}{lc}
+        \toprule
+        \textbf{Metric} & \textbf{Value} \\
+        \midrule
+        Eval Loss & 0.3337 \\
+        Accuracy & 87.20\% \\
+        F1 Score & 87.60\% \\
+        Precision & 83.70\% \\
+        Recall & 91.87\% \\
+        Samples Per Second & 9.969 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Visual Analysis}
+
+\subsubsection{Confusion Matrix}
+Figure \ref{fig:confusion_matrix} displays the confusion matrix for the test set predictions. The model shows a strong ability to distinguish between positive and negative sentiments, with a slightly higher recall (fewer false negatives) compared to precision.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{results/confusion_matrix.png}
+    \caption{Confusion Matrix of Model Predictions}
+    \label{fig:confusion_matrix}
+\end{figure}
+
+\subsubsection{Training Dynamics}
+Figure \ref{fig:training_loss} illustrates the training loss over time. The decreasing trend in loss indicates that the model successfully converged during the fine-tuning process.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{results/training_loss.png}
+    \caption{Training Loss over Steps}
+    \label{fig:training_loss}
+\end{figure}
+
+\section{Conclusion}
+The deployed DistilBERT model demonstrates robust performance for sentiment classification tasks. The integration of Docker and Hugging Face facilitates a scalable and reproducible MLOps workflow. Future work could involve hyperparameter tuning and exploring larger models like RoBERTa for potential performance gains, trading off some inference speed.
+
+\end{document}
