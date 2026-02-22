@@ -1,0 +1,52 @@
+Loading tokenizer for: distilbert-base-cased
+Downloading and processing Goodreads dataset...
+Loading reviews for poetry...
+Loading reviews for children...
+Loading reviews for comics_graphic...
+Loading reviews for fantasy_paranormal...
+Loading reviews for history_biography...
+Loading reviews for mystery_thriller_crime...
+Loading reviews for romance...
+Loading reviews for young_adult...
+Tokenizing dataset...
+Map:   0%|          | 0/6400 [00:00<?, ? examples/s]Map:  16%|█▌        | 1000/6400 [00:00<00:01, 3006.18 examples/s]Map:  31%|███▏      | 2000/6400 [00:00<00:01, 3778.77 examples/s]Map:  47%|████▋     | 3000/6400 [00:00<00:00, 3846.12 examples/s]Map:  62%|██████▎   | 4000/6400 [00:01<00:00, 3626.94 examples/s]Map:  78%|███████▊  | 5000/6400 [00:01<00:00, 3597.55 examples/s]Map:  94%|█████████▍| 6000/6400 [00:01<00:00, 3495.18 examples/s]Map: 100%|██████████| 6400/6400 [00:01<00:00, 3533.95 examples/s]Map: 100%|██████████| 6400/6400 [00:01<00:00, 3557.82 examples/s]
+Map:   0%|          | 0/1600 [00:00<?, ? examples/s]Map:  62%|██████▎   | 1000/1600 [00:00<00:00, 3680.74 examples/s]Map: 100%|██████████| 1600/1600 [00:00<00:00, 3345.40 examples/s]Map: 100%|██████████| 1600/1600 [00:00<00:00, 3350.95 examples/s]
+/DATA/anikde/miniconda3/envs/goodreads/lib/python3.9/site-packages/torch/nn/parallel/_functions.py:71: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn(
+Loading trained model from ./final_model...
+Running evaluation...
+  0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:03,  5.89it/s] 12%|█▏        | 3/25 [00:00<00:05,  4.23it/s] 16%|█▌        | 4/25 [00:00<00:05,  3.69it/s] 20%|██        | 5/25 [00:01<00:05,  3.45it/s] 24%|██▍       | 6/25 [00:01<00:05,  3.31it/s] 28%|██▊       | 7/25 [00:01<00:05,  3.23it/s] 32%|███▏      | 8/25 [00:02<00:05,  3.17it/s] 36%|███▌      | 9/25 [00:02<00:05,  3.15it/s] 40%|████      | 10/25 [00:02<00:04,  3.15it/s] 44%|████▍     | 11/25 [00:03<00:04,  3.14it/s] 48%|████▊     | 12/25 [00:03<00:04,  3.11it/s] 52%|█████▏    | 13/25 [00:03<00:03,  3.10it/s] 56%|█████▌    | 14/25 [00:04<00:03,  3.10it/s] 60%|██████    | 15/25 [00:04<00:03,  3.11it/s] 64%|██████▍   | 16/25 [00:04<00:02,  3.11it/s] 68%|██████▊   | 17/25 [00:05<00:02,  3.11it/s] 72%|███████▏  | 18/25 [00:05<00:02,  3.11it/s] 76%|███████▌  | 19/25 [00:05<00:01,  3.12it/s] 80%|████████  | 20/25 [00:06<00:01,  3.12it/s] 84%|████████▍ | 21/25 [00:06<00:01,  3.11it/s] 88%|████████▊ | 22/25 [00:06<00:00,  3.12it/s] 92%|█████████▏| 23/25 [00:07<00:00,  3.12it/s] 96%|█████████▌| 24/25 [00:07<00:00,  3.12it/s]100%|██████████| 25/25 [00:07<00:00,  3.22it/s]
+Downloading builder script: 0.00B [00:00, ?B/s][ADownloading builder script: 4.20kB [00:00, 5.27MB/s]
+
+Downloading builder script: 0.00B [00:00, ?B/s][ADownloading builder script: 6.79kB [00:00, 9.39MB/s]
+
+Downloading builder script: 0.00B [00:00, ?B/s][ADownloading builder script: 7.56kB [00:00, 7.84MB/s]
+
+Downloading builder script: 0.00B [00:00, ?B/s][ADownloading builder script: 7.38kB [00:00, 7.54MB/s]
+100%|██████████| 25/25 [00:20<00:00,  1.20it/s]
+/DATA/anikde/miniconda3/envs/goodreads/lib/python3.9/site-packages/torch/nn/parallel/_functions.py:71: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn(
+Evaluation Results: {'eval_loss': 1.3235602378845215, 'eval_accuracy': 0.55375, 'eval_f1': 0.5470789695646188, 'eval_precision': 0.5455234655612352, 'eval_recall': 0.55375, 'eval_runtime': 25.8715, 'eval_samples_per_second': 61.844, 'eval_steps_per_second': 0.966}
+Results saved to ./results/eval_results_local.json
+  0%|          | 0/25 [00:00<?, ?it/s]  8%|▊         | 2/25 [00:00<00:03,  6.25it/s] 12%|█▏        | 3/25 [00:00<00:05,  3.75it/s] 16%|█▌        | 4/25 [00:01<00:06,  3.48it/s] 20%|██        | 5/25 [00:01<00:06,  3.33it/s] 24%|██▍       | 6/25 [00:01<00:05,  3.23it/s] 28%|██▊       | 7/25 [00:02<00:05,  3.18it/s] 32%|███▏      | 8/25 [00:02<00:05,  3.15it/s] 36%|███▌      | 9/25 [00:02<00:05,  3.12it/s] 40%|████      | 10/25 [00:03<00:04,  3.11it/s] 44%|████▍     | 11/25 [00:03<00:04,  3.09it/s] 48%|████▊     | 12/25 [00:03<00:04,  3.09it/s] 52%|█████▏    | 13/25 [00:03<00:03,  3.09it/s] 56%|█████▌    | 14/25 [00:04<00:03,  3.08it/s] 60%|██████    | 15/25 [00:04<00:03,  3.08it/s] 64%|██████▍   | 16/25 [00:04<00:02,  3.10it/s] 68%|██████▊   | 17/25 [00:05<00:02,  3.11it/s] 72%|███████▏  | 18/25 [00:05<00:02,  3.11it/s] 76%|███████▌  | 19/25 [00:05<00:01,  3.12it/s] 80%|████████  | 20/25 [00:06<00:01,  3.12it/s] 84%|████████▍ | 21/25 [00:06<00:01,  3.13it/s] 88%|████████▊ | 22/25 [00:06<00:00,  3.11it/s] 92%|█████████▏| 23/25 [00:07<00:00,  3.11it/s] 96%|█████████▌| 24/25 [00:07<00:00,  3.10it/s]100%|██████████| 25/25 [00:07<00:00,  3.21it/s]100%|██████████| 25/25 [00:16<00:00,  1.47it/s]
+Confusion matrix saved to ./results/confusion_matrix_local.png
+Per-class metrics bar chart saved to ./results/per_class_metrics_local.png
+Overall metrics bar chart saved to ./results/overall_metrics_local.png
+
+Classification Report:
+
+                        precision    recall  f1-score   support
+
+              children       0.64      0.64      0.64       200
+        comics_graphic       0.75      0.71      0.73       200
+    fantasy_paranormal       0.41      0.41      0.41       200
+     history_biography       0.54      0.53      0.53       200
+mystery_thriller_crime       0.56      0.52      0.54       200
+                poetry       0.62      0.80      0.70       200
+               romance       0.54      0.59      0.56       200
+           young_adult       0.31      0.23      0.27       200
+
+              accuracy                           0.55      1600
+             macro avg       0.55      0.55      0.55      1600
+          weighted avg       0.55      0.55      0.55      1600
+

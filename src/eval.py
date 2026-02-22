@@ -2,10 +2,9 @@ import argparse
 import os
 import json
 import numpy as np
-import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer
 from data import prepare_datasets
-from utils import compute_metrics, plot_confusion_matrix
+from utils import compute_metrics, plot_confusion_matrix, plot_per_class_bars, plot_eval_metrics_bar
 from sklearn.metrics import classification_report
 
 
@@ -25,7 +24,7 @@ def main(args):
     trainer = Trainer(
         model=model,
         eval_dataset=test_dataset,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         compute_metrics=compute_metrics,
     )
 
@@ -34,37 +33,41 @@ def main(args):
     print("Evaluation Results:", metrics)
 
     output_dir = "./results"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
 
-    with open(os.path.join(output_dir, "eval_results.json"), "w") as f:
+    suffix = f"_{args.mode}" if args.mode else ""
+    results_file = os.path.join(output_dir, f"eval_results{suffix}.json")
+    with open(results_file, "w") as f:
         json.dump(metrics, f, indent=4)
-
-    trainer.save_state()
-
-    from utils import plot_training_history
-
-    plot_training_history(output_dir, os.path.join(output_dir, "training_loss.png"))
+    print(f"Results saved to {results_file}")
 
     predictions_output = trainer.predict(test_dataset)
     preds = np.argmax(predictions_output.predictions, axis=-1)
     true_labels = predictions_output.label_ids
-    label_names = [id2label[i] for i in range(len(label2id))]
+    label_names = [id2label[i] for i in range(len(id2label))]
 
     plot_confusion_matrix(
-        true_labels,
-        preds,
-        label_names,
-        os.path.join(output_dir, "confusion_matrix.png"),
+        true_labels, preds, label_names,
+        os.path.join(output_dir, f"confusion_matrix{suffix}.png"),
     )
 
-    report = classification_report(true_labels, preds, target_names=label_names)
+    report_dict = classification_report(true_labels, preds, target_names=label_names, output_dict=True)
+    plot_per_class_bars(report_dict, label_names, os.path.join(output_dir, f"per_class_metrics{suffix}.png"))
+
+    plot_eval_metrics_bar(metrics, os.path.join(output_dir, f"overall_metrics{suffix}.png"))
+
+    report_str = classification_report(true_labels, preds, target_names=label_names)
     print("\nClassification Report:\n")
-    print(report)
+    print(report_str)
+
+    with open(os.path.join(output_dir, f"classification_report{suffix}.txt"), "w") as f:
+        f.write(report_str)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", type=str, required=True)
+    parser.add_argument("--mode", type=str, default="local", choices=["local", "hub"],
+                        help="Evaluation mode: local or hub")
     args = parser.parse_args()
     main(args)

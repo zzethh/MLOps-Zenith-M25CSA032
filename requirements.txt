@@ -1,10 +1,10 @@
---extra-index-url https://download.pytorch.org/whl/cpu
 torch
 transformers
-accelerate>=0.26.0
+accelerate
 datasets
 scikit-learn
 evaluate
 matplotlib
 seaborn
 pandas
+requests

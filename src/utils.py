@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -17,14 +19,10 @@ def compute_metrics(eval_pred):
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
 
-    accuracy = load_accuracy.compute(predictions=predictions, references=labels)[
-        "accuracy"
-    ]
-    f1 = load_f1.compute(predictions=predictions, references=labels)["f1"]
-    precision = load_precision.compute(predictions=predictions, references=labels)[
-        "precision"
-    ]
-    recall = load_recall.compute(predictions=predictions, references=labels)["recall"]
+    accuracy = load_accuracy.compute(predictions=predictions, references=labels)["accuracy"]
+    f1 = load_f1.compute(predictions=predictions, references=labels, average="weighted")["f1"]
+    precision = load_precision.compute(predictions=predictions, references=labels, average="weighted")["precision"]
+    recall = load_recall.compute(predictions=predictions, references=labels, average="weighted")["recall"]
 
     return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
 
@@ -33,67 +31,91 @@ def plot_confusion_matrix(y_true, y_pred, labels, output_path):
     cm = confusion_matrix(y_true, y_pred)
     df_cm = pd.DataFrame(cm, index=labels, columns=labels)
 
-    plt.figure(figsize=(10, 8))
-    sns.set(style="ticks", font_scale=1.2)
+    plt.figure(figsize=(12, 9))
+    sns.set(style="ticks", font_scale=1.1)
     sns.heatmap(df_cm, annot=True, fmt="d", cmap="Purples", linewidths=1)
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
-    plt.title("Confusion Matrix")
+    plt.title("Confusion Matrix — Goodreads Genre Classification")
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=150)
     plt.close()
     print(f"Confusion matrix saved to {output_path}")
 
 
-def plot_training_history(output_dir, output_path):
-    state_file = os.path.join(output_dir, "trainer_state.json")
-    if not os.path.exists(state_file):
-        print("No trainer_state.json found. Skipping loss plot.")
-        return
+def plot_per_class_bars(report_dict, label_names, output_path):
+    precision = [report_dict[l]["precision"] for l in label_names]
+    recall = [report_dict[l]["recall"] for l in label_names]
+    f1 = [report_dict[l]["f1-score"] for l in label_names]
 
-    import matplotlib
+    x = np.arange(len(label_names))
+    width = 0.25
 
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(14, 6))
+    ax.bar(x - width, precision, width, label="Precision", color="#5B8DB8")
+    ax.bar(x, recall, width, label="Recall", color="#E07B4F")
+    ax.bar(x + width, f1, width, label="F1-Score", color="#6AAB7A")
 
-    with open(state_file, "r") as f:
-        data = json.load(f)
-
-    history = data.get("log_history", [])
-    if not history:
-        return
-
-    train_loss = [x["loss"] for x in history if "loss" in x]
-    steps = [x["step"] for x in history if "loss" in x]
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(steps, train_loss, label="Training Loss", color="blue")
-    plt.xlabel("Steps")
-    plt.ylabel("Loss")
-    plt.title("Training Loss over Time")
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(output_path)
+    ax.set_ylabel("Score")
+    ax.set_title("Per-Class Precision, Recall and F1-Score")
+    ax.set_xticks(x)
+    ax.set_xticklabels([l.replace("_", "\n") for l in label_names], fontsize=9)
+    ax.set_ylim(0, 1.0)
+    ax.legend()
+    ax.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
     plt.close()
-    print(f"Training history plot saved to {output_path}")
+    print(f"Per-class metrics bar chart saved to {output_path}")
 
 
-def save_misclassifications(y_true, y_pred, dataset, tokenizer, id2label, output_path):
-    print(f"Saving misclassifications to {output_path}...")
-    with open(output_path, "w") as f:
-        f.write("TRUE LABEL\tPREDICTED LABEL\tREVIEW TEXT\n")
-        f.write("=" * 100 + "\n")
+def plot_eval_metrics_bar(metrics, output_path):
+    keys = ["eval_accuracy", "eval_f1", "eval_precision", "eval_recall"]
+    labels = ["Accuracy", "F1 (weighted)", "Precision (weighted)", "Recall (weighted)"]
+    values = [metrics.get(k, 0) for k in keys]
+    colors = ["#5B8DB8", "#6AAB7A", "#E07B4F", "#C47AC0"]
 
-        count = 0
-        for i, (true, pred) in enumerate(zip(y_true, y_pred)):
-            if true != pred:
-                true_lbl = id2label[true]
-                pred_lbl = id2label[pred]
+    plt.figure(figsize=(8, 5))
+    bars = plt.bar(labels, values, color=colors, edgecolor="white", linewidth=0.8)
+    for bar, val in zip(bars, values):
+        plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.01,
+                 f"{val:.3f}", ha='center', va='bottom', fontsize=11, fontweight='bold')
+    plt.ylim(0, 1.1)
+    plt.ylabel("Score")
+    plt.title("Overall Evaluation Metrics")
+    plt.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+    print(f"Overall metrics bar chart saved to {output_path}")
 
-                input_ids = dataset[i]["input_ids"]
-                text = tokenizer.decode(input_ids, skip_special_tokens=True)
 
-                clean_text = text[:150].replace("\n", " ")
-                f.write(f"{true_lbl}\t{pred_lbl}\t{clean_text}...\n")
-                count += 1
-    print(f"Saved {count} misclassified examples.")
+def plot_comparison_bars(local_metrics, hub_metrics, output_path):
+    keys = ["eval_accuracy", "eval_f1", "eval_precision", "eval_recall"]
+    labels = ["Accuracy", "F1", "Precision", "Recall"]
+    local_vals = [local_metrics.get(k, 0) for k in keys]
+    hub_vals = [hub_metrics.get(k, 0) for k in keys]
+
+    x = np.arange(len(labels))
+    width = 0.35
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+    b1 = ax.bar(x - width/2, local_vals, width, label="Local Model", color="#5B8DB8")
+    b2 = ax.bar(x + width/2, hub_vals, width, label="Hub Model", color="#E07B4F")
+
+    for bar in list(b1) + list(b2):
+        ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005,
+                f"{bar.get_height():.3f}", ha='center', va='bottom', fontsize=9)
+
+    ax.set_ylabel("Score")
+    ax.set_title("Local vs. Hub Model Evaluation Comparison")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.set_ylim(0, 0.75)
+    ax.legend()
+    ax.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+    print(f"Comparison bar chart saved to {output_path}")

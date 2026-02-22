@@ -10,8 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ ./src/
 
-COPY final_model/ ./final_model/
+ENV HF_REPO="Zenith754/goodreads-bert-classifier"
+ENV HF_TOKEN=""
 
-ENV MODEL_NAME="/app/final_model"
-
-CMD ["sh", "-c", "python src/eval.py --model_path $MODEL_NAME"]
+CMD ["sh", "-c", "python src/hub_eval_entry.py"]
