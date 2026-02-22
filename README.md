@@ -99,14 +99,22 @@ python src/eval.py --model_path Zenith754/goodreads-bert-classifier --mode hub
 | Weighted Precision | 0.5455 | 0.5455 | 0.0000 |
 | Weighted Recall | 0.5538 | 0.5538 | 0.0000 |
 
-### Visualizations
+### Output Files in `results/`
 
-The evaluation generates the following in `results/`:
-- **confusion_matrix_local.png** — 8×8 genre prediction heatmap
-- **per_class_metrics_local.png** — per-genre precision, recall, F1 bars
-- **overall_metrics_local.png** — overall accuracy/F1/precision/recall
-- **comparison_local_hub.png** — local vs hub evaluation comparison
-- **training_loss.png** — eval loss and accuracy per epoch
+| File | Description |
+|---|---|
+| `eval_results_local.json` | Metrics from local model evaluation |
+| `eval_results_hub.json` | Metrics from HuggingFace Hub model evaluation |
+| `classification_report_local.txt` | Per-class report (local) |
+| `classification_report_hub.txt` | Per-class report (hub) |
+| `confusion_matrix_local.png` | 8×8 genre confusion matrix (local) |
+| `confusion_matrix_hub.png` | 8×8 genre confusion matrix (hub) |
+| `per_class_metrics_local.png` | Per-genre Precision/Recall/F1 bars (local) |
+| `per_class_metrics_hub.png` | Per-genre Precision/Recall/F1 bars (hub) |
+| `overall_metrics_local.png` | Overall Accuracy/F1/Precision/Recall bar (local) |
+| `overall_metrics_hub.png` | Overall metrics bar (hub) |
+| `comparison_local_hub.png` | Local vs Hub side-by-side comparison |
+| `training_loss.png` | Eval loss & accuracy per epoch |
 
 ---
 
