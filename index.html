@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MLOps Zenith — Repository Hub</title>
+    <title>MLOps Zenith — M25CSA032</title>
     <meta
       name="description"
-      content="Official repository hub for CSL7120 MLOps Engineering — Zenith (M25CSA032). Aggregating all assignments, labs, and research."
+      content="Official repository hub for CSL7120 MLOps Engineering — Zenith (M25CSA032)."
     />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link
@@ -14,39 +14,38 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
-      /* ─── Design Tokens ─── */
       :root {
-        --primary: #a78bfa;
-        --primary-dark: #7c3aed;
-        --primary-glow: rgba(167, 139, 250, 0.25);
-        --bg: #0a0a0f;
-        --bg-subtle: #12121a;
-        --sidebar-bg: #0f0f17;
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --card-bg-hover: rgba(255, 255, 255, 0.06);
-        --text-main: #f0f0f5;
-        --text-muted: #8b8b9e;
-        --text-dim: #5a5a6e;
-        --accent: #67e8f9;
-        --accent-glow: rgba(103, 232, 249, 0.15);
-        --success: #34d399;
-        --warning: #fbbf24;
-        --border: rgba(255, 255, 255, 0.06);
-        --border-hover: rgba(255, 255, 255, 0.12);
-        --table-header: rgba(167, 139, 250, 0.08);
+        --green-deep: #0d2818;
+        --green-dark: #163d28;
+        --green-mid: #1e5537;
+        --green-muted: #2a6b47;
+        --gold: #c8a04a;
+        --gold-light: #dbb866;
+        --gold-muted: rgba(200, 160, 74, 0.15);
+        --cream: #f5f0e6;
+        --cream-dark: #e8e0d0;
+        --cream-mid: #ede5d6;
+        --white: #faf8f3;
+        --text-dark: #1a1a1a;
+        --text-body: #3d3d3d;
+        --text-muted: #6b6b6b;
+        --text-light: #f5f0e6;
+        --text-light-muted: rgba(245, 240, 230, 0.65);
+        --border-light: rgba(0, 0, 0, 0.08);
+        --border-dark: rgba(245, 240, 230, 0.12);
         --radius-sm: 8px;
-        --radius-md: 14px;
-        --radius-lg: 20px;
-        --radius-xl: 28px;
-        --shadow-glow: 0 0 60px -12px;
-        --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* ─── Reset ─── */
       *,
       *::before,
       *::after {
@@ -54,179 +53,228 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       html {
         scroll-behavior: smooth;
       }
 
       body {
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background-color: var(--bg);
-        color: var(--text-main);
-        display: flex;
+        font-family: var(--font-sans);
+        background-color: var(--cream);
+        color: var(--text-body);
         min-height: 100vh;
-        overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
       }
 
-      /* ─── Ambient Background ─── */
-      body::before {
-        content: "";
+      /* ═══════════════════ TOP NAV ═══════════════════ */
+      header {
         position: fixed;
-        inset: 0;
-        background:
-          radial-gradient(
-            ellipse 80% 50% at 20% 20%,
-            rgba(167, 139, 250, 0.06),
-            transparent 60%
-          ),
-          radial-gradient(
-            ellipse 60% 40% at 80% 80%,
-            rgba(103, 232, 249, 0.04),
-            transparent 60%
-          );
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      /* ─── Sidebar ─── */
-      aside {
-        width: 280px;
-        background: var(--sidebar-bg);
-        border-right: 1px solid var(--border);
-        padding: 2rem 1.25rem;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        height: 100vh;
-        z-index: 100;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: var(--green-deep);
+        border-bottom: 1px solid var(--border-dark);
         backdrop-filter: blur(20px);
       }
 
+      .header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
       .logo {
-        font-weight: 900;
+        font-family: var(--font-serif);
         font-size: 1.35rem;
-        margin-bottom: 0.5rem;
+        color: var(--cream);
         display: flex;
         align-items: center;
         gap: 10px;
-        color: var(--accent);
-        letter-spacing: -0.03em;
-        padding: 0 0.75rem;
+        letter-spacing: -0.01em;
       }
 
-      .logo i {
-        font-size: 1.1rem;
-        background: linear-gradient(135deg, var(--accent), var(--primary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--gold);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .sidebar-meta {
-        font-size: 0.72rem;
-        color: var(--text-dim);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        padding: 0 0.75rem;
-        margin-bottom: 2.5rem;
+      .logo-icon i {
+        color: var(--gold);
+        font-size: 0.85rem;
       }
 
-      nav ul {
-        list-style: none;
-      }
-      nav li {
-        margin-bottom: 4px;
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 0;
       }
 
       .nav-btn {
-        width: 100%;
-        padding: 0.85rem 1rem;
+        background: none;
         border: none;
-        background: transparent;
-        color: var(--text-muted);
-        text-align: left;
-        border-radius: var(--radius-md);
+        color: var(--text-light-muted);
+        font-family: var(--font-sans);
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.55rem 1.1rem;
         cursor: pointer;
-        font-size: 0.88rem;
-        font-weight: 600;
-        font-family: inherit;
-        display: flex;
-        align-items: center;
-        gap: 12px;
         transition: var(--transition);
-        position: relative;
-      }
-
-      .nav-btn i {
-        width: 18px;
-        text-align: center;
-        font-size: 0.85rem;
-        opacity: 0.7;
-        transition: var(--transition);
+        border-radius: var(--radius-sm);
+        letter-spacing: 0.01em;
+        white-space: nowrap;
       }
 
       .nav-btn:hover {
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--text-main);
-      }
-      .nav-btn:hover i {
-        opacity: 1;
+        color: var(--cream);
+        background: rgba(245, 240, 230, 0.06);
       }
 
       .nav-btn.active {
-        background: linear-gradient(
-          135deg,
-          rgba(167, 139, 250, 0.18),
-          rgba(103, 232, 249, 0.08)
-        );
-        color: var(--text-main);
-        border: 1px solid rgba(167, 139, 250, 0.2);
-        box-shadow: var(--shadow-glow) var(--primary-glow);
+        color: var(--gold);
+        background: rgba(200, 160, 74, 0.1);
       }
 
-      .nav-btn.active i {
-        opacity: 1;
-        color: var(--primary);
+      .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--cream);
+        font-size: 1.3rem;
+        cursor: pointer;
+        padding: 0.5rem;
       }
 
-      .sidebar-footer {
-        margin-top: auto;
-        padding: 1.25rem 0.75rem;
-        border-top: 1px solid var(--border);
-      }
-      .sidebar-footer a {
-        color: var(--text-dim);
-        text-decoration: none;
-        font-size: 0.78rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: color 0.2s;
-      }
-      .sidebar-footer a:hover {
-        color: var(--text-muted);
+      /* ═══════════════════ HERO ═══════════════════ */
+      .hero {
+        background: var(--green-deep);
+        padding: 8rem 2.5rem 5rem;
+        position: relative;
+        overflow: hidden;
       }
 
-      /* ─── Main Content ─── */
-      main {
-        margin-left: 280px;
-        flex: 1;
-        padding: 3.5rem 4rem;
-        max-width: 1100px;
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        border: 1px solid rgba(200, 160, 74, 0.08);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        bottom: -20%;
+        left: -5%;
+        width: 400px;
+        height: 400px;
+        border: 1px solid rgba(200, 160, 74, 0.05);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
         position: relative;
         z-index: 1;
       }
 
-      .content-section {
-        display: none;
-        animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--gold);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
       }
 
+      .hero-label::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--gold);
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        color: var(--cream);
+        line-height: 1.15;
+        margin-bottom: 1.25rem;
+        max-width: 700px;
+        letter-spacing: -0.01em;
+      }
+
+      .hero p {
+        font-size: 1.05rem;
+        color: var(--text-light-muted);
+        max-width: 560px;
+        line-height: 1.7;
+        margin-bottom: 2.5rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 0.85rem;
+        font-family: var(--font-sans);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        border: none;
+      }
+
+      .btn-gold {
+        background: var(--gold);
+        color: var(--green-deep);
+      }
+      .btn-gold:hover {
+        background: var(--gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(200, 160, 74, 0.3);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--cream);
+        border: 1px solid var(--border-dark);
+      }
+      .btn-outline:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* ═══════════════════ CONTENT SECTIONS ═══════════════════ */
+      .content-section {
+        display: none;
+        animation: fadeIn 0.45s ease;
+      }
       .content-section.active {
         display: block;
       }
@@ -234,7 +282,7 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(12px);
+          transform: translateY(16px);
         }
         to {
           opacity: 1;
@@ -242,85 +290,305 @@
         }
       }
 
-      /* ─── Section Header ─── */
-      .section-header {
-        margin-bottom: 2.5rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid var(--border);
+      /* ═══════════════════ OVERVIEW CARDS ═══════════════════ */
+      .section-cream {
+        background: var(--cream);
+        padding: 5rem 2.5rem;
       }
 
-      .section-header h1 {
-        font-size: 2.2rem;
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1.15;
-        margin-bottom: 0.6rem;
+      .section-white {
+        background: var(--white);
+        padding: 5rem 2.5rem;
       }
 
-      .section-header .branch-tag {
+      .section-dark {
+        background: var(--green-deep);
+        padding: 5rem 2.5rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--gold);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      .section-label::before {
+        content: "";
+        width: 20px;
+        height: 1px;
+        background: var(--gold);
+      }
+
+      .section-label.light {
+        color: var(--gold);
+      }
+
+      .section-title {
+        font-family: var(--font-serif);
+        font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+      }
+
+      .section-title.light {
+        color: var(--cream);
+      }
+
+      .section-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        max-width: 560px;
+        line-height: 1.7;
+        margin-bottom: 3rem;
+      }
+
+      .section-subtitle.light {
+        color: var(--text-light-muted);
+      }
+
+      /* Cards grid */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.25rem;
+      }
+
+      .card {
+        background: var(--white);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        padding: 1.75rem;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transition: transform 0.35s ease;
+        transform-origin: left;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        border-color: transparent;
+      }
+      .card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.1rem;
+        font-size: 1rem;
+      }
+
+      .card-icon.green {
+        background: rgba(30, 85, 55, 0.1);
+        color: var(--green-mid);
+      }
+      .card-icon.gold {
+        background: var(--gold-muted);
+        color: var(--gold);
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.15rem;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+      }
+
+      .card p {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .card-branch {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--green-muted);
+        background: rgba(30, 85, 55, 0.06);
+        padding: 0.25rem 0.65rem;
+        border-radius: 100px;
+        font-family: "SF Mono", "Fira Code", monospace;
+      }
+
+      .card-arrow {
+        position: absolute;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--gold-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        font-size: 0.7rem;
+        transition: var(--transition);
+      }
+
+      .card:hover .card-arrow {
+        background: var(--gold);
+        color: var(--green-deep);
+      }
+
+      /* ═══════════════════ DETAIL PAGES ═══════════════════ */
+      .detail-hero {
+        background: var(--green-deep);
+        padding: 7.5rem 2.5rem 3.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .detail-hero::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        width: 300px;
+        height: 300px;
+        border: 1px solid rgba(200, 160, 74, 0.06);
+        border-radius: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .detail-hero .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .back-btn {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 0.35rem 0.9rem;
+        color: var(--text-light-muted);
+        font-size: 0.8rem;
+        font-weight: 500;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: var(--font-sans);
+        margin-bottom: 2rem;
+        transition: color 0.2s;
+        padding: 0;
+      }
+      .back-btn:hover {
+        color: var(--gold);
+      }
+
+      .detail-hero h1 {
+        font-family: var(--font-serif);
+        font-size: clamp(2rem, 4.5vw, 3rem);
+        color: var(--cream);
+        line-height: 1.15;
+        margin-bottom: 1rem;
+        max-width: 650px;
+      }
+
+      .detail-hero .branch-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(200, 160, 74, 0.12);
+        border: 1px solid rgba(200, 160, 74, 0.2);
+        padding: 0.35rem 1rem;
         border-radius: 100px;
         font-size: 0.75rem;
         font-weight: 600;
-        color: var(--text-muted);
+        color: var(--gold);
         font-family: "SF Mono", "Fira Code", monospace;
       }
-      .section-header .branch-tag i {
-        color: var(--success);
-        font-size: 0.65rem;
-      }
 
-      /* ─── Typography ─── */
-      h1 {
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        letter-spacing: -0.04em;
-      }
-      h2 {
-        font-size: 1.45rem;
-        font-weight: 700;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        letter-spacing: -0.02em;
-        color: var(--text-main);
-      }
-      h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        color: var(--text-main);
+      /* ═══════════════════ MARKDOWN BODY ═══════════════════ */
+      .md-wrap {
+        background: var(--white);
+        padding: 4rem 2.5rem;
       }
 
       .markdown-body {
-        line-height: 1.75;
+        max-width: 1200px;
+        margin: 0 auto;
         font-size: 0.95rem;
-        color: var(--text-muted);
+        line-height: 1.75;
+        color: var(--text-body);
       }
 
-      .markdown-body p {
+      .markdown-body h1 {
+        font-family: var(--font-serif);
+        font-size: 2.2rem;
+        color: var(--text-dark);
+        margin-top: 0;
         margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+      }
+
+      .markdown-body h2 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        color: var(--text-dark);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      .markdown-body h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
       }
 
       .markdown-body strong {
-        color: var(--text-main);
-        font-weight: 600;
+        color: var(--text-dark);
       }
 
       .markdown-body a {
-        color: var(--primary);
+        color: var(--green-mid);
         text-decoration: none;
+        font-weight: 500;
         border-bottom: 1px solid transparent;
         transition: border-color 0.2s;
       }
       .markdown-body a:hover {
-        border-bottom-color: var(--primary);
+        border-bottom-color: var(--green-mid);
       }
 
       .markdown-body ul,
@@ -336,89 +604,92 @@
       .markdown-body hr {
         border: none;
         height: 1px;
-        background: var(--border);
+        background: var(--border-light);
         margin: 2rem 0;
       }
 
-      /* ─── Tables ─── */
+      /* Tables */
       .markdown-body table {
         width: 100%;
         margin: 1.5rem 0;
         border-collapse: separate;
         border-spacing: 0;
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-md);
         overflow: hidden;
-        border: 1px solid var(--border);
-        background: var(--card-bg);
+        border: 1px solid var(--border-light);
+        background: var(--white);
       }
 
       .markdown-body th {
-        background: var(--table-header);
-        color: var(--primary);
+        background: var(--green-deep);
+        color: var(--gold);
         font-weight: 700;
         text-align: left;
-        padding: 0.9rem 1.1rem;
-        border-bottom: 1px solid var(--border);
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-dark);
         text-transform: uppercase;
         font-size: 0.7rem;
         letter-spacing: 0.06em;
       }
 
       .markdown-body td {
-        padding: 0.85rem 1.1rem;
-        border-bottom: 1px solid var(--border);
-        color: var(--text-main);
+        padding: 0.8rem 1.1rem;
+        border-bottom: 1px solid var(--border-light);
         font-size: 0.88rem;
+        color: var(--text-body);
       }
 
       .markdown-body tr:last-child td {
         border-bottom: none;
       }
       .markdown-body tr:hover td {
-        background: rgba(255, 255, 255, 0.015);
+        background: rgba(200, 160, 74, 0.04);
       }
 
       .markdown-body code {
-        background: rgba(167, 139, 250, 0.1);
-        color: var(--primary);
+        background: var(--gold-muted);
+        color: var(--green-dark);
         padding: 0.15rem 0.45rem;
-        border-radius: 5px;
+        border-radius: 4px;
         font-family: "SF Mono", "Fira Code", monospace;
         font-size: 0.82em;
+        font-weight: 500;
       }
 
       .markdown-body pre {
-        background: #08080e;
+        background: var(--green-deep);
         padding: 1.5rem;
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-md);
         margin: 1.5rem 0;
-        border: 1px solid var(--border);
         overflow-x: auto;
       }
       .markdown-body pre code {
         background: none;
+        color: var(--text-light-muted);
         padding: 0;
-        color: var(--text-muted);
         font-size: 0.82rem;
+        font-weight: 400;
       }
 
-      /* ─── Report Card ─── */
+      /* ═══════════════════ REPORT CARD ═══════════════════ */
       .report-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 1.75rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--green-deep);
         border-radius: var(--radius-xl);
-        margin-top: 3rem;
+        padding: 2rem 2.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1.5rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
         transition: var(--transition);
       }
 
       .report-card:hover {
-        border-color: var(--border-hover);
-        background: var(--card-bg-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 16px 40px rgba(13, 40, 24, 0.25);
       }
 
       .report-info {
@@ -426,232 +697,273 @@
         align-items: center;
         gap: 1.25rem;
       }
-      .report-icon {
-        font-size: 1.75rem;
-        color: white;
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        padding: 0.85rem;
+
+      .report-icon-wrap {
+        width: 52px;
+        height: 52px;
         border-radius: var(--radius-md);
-        box-shadow: 0 8px 20px -4px rgba(239, 68, 68, 0.3);
-      }
-      .report-info h3 {
-        margin: 0 0 0.2rem 0;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--text-main);
-      }
-      .report-info p {
-        margin: 0;
-        font-size: 0.8rem;
-        color: var(--text-dim);
-      }
-
-      .btn-download {
-        background: linear-gradient(
-          135deg,
-          var(--primary),
-          var(--primary-dark)
-        );
-        color: white;
-        text-decoration: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-sm);
-        font-weight: 700;
-        font-size: 0.82rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: var(--transition);
-        white-space: nowrap;
-      }
-
-      .btn-download:hover {
-        box-shadow: var(--shadow-glow) var(--primary-glow);
-        transform: translateY(-2px);
-      }
-
-      /* ─── Overview Cards ─── */
-      .overview-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
-      }
-
-      .overview-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: var(--transition);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .overview-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        opacity: 0;
-        transition: opacity 0.35s;
-        background: linear-gradient(
-          135deg,
-          rgba(167, 139, 250, 0.04),
-          rgba(103, 232, 249, 0.02)
-        );
-      }
-
-      .overview-card:hover {
-        border-color: var(--border-hover);
-        transform: translateY(-3px);
-      }
-      .overview-card:hover::after {
-        opacity: 1;
-      }
-
-      .overview-card .card-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+        background: rgba(200, 160, 74, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 0.9rem;
-        font-size: 0.9rem;
+        font-size: 1.5rem;
+        color: var(--gold);
+        flex-shrink: 0;
       }
-      .overview-card h3 {
-        margin: 0 0 0.3rem 0;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--text-main);
-        position: relative;
-        z-index: 1;
+
+      .report-info h3 {
+        font-family: var(--font-serif);
+        font-size: 1.05rem;
+        color: var(--cream);
+        margin-bottom: 0.2rem;
       }
-      .overview-card p {
-        margin: 0;
+      .report-info p {
         font-size: 0.78rem;
-        color: var(--text-dim);
-        line-height: 1.5;
-        position: relative;
-        z-index: 1;
-      }
-      .overview-card .card-branch {
-        display: inline-block;
-        margin-top: 0.8rem;
-        font-size: 0.68rem;
-        color: var(--text-dim);
-        background: rgba(255, 255, 255, 0.04);
-        padding: 0.2rem 0.55rem;
-        border-radius: 100px;
-        font-family: "SF Mono", monospace;
-        position: relative;
-        z-index: 1;
+        color: var(--text-light-muted);
+        margin: 0;
       }
 
-      .card-icon.a1 {
-        background: rgba(251, 191, 36, 0.12);
-        color: #fbbf24;
+      .btn-report {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: var(--green-deep);
+        font-weight: 700;
+        font-size: 0.82rem;
+        padding: 0.7rem 1.4rem;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        transition: var(--transition);
+        white-space: nowrap;
       }
-      .card-icon.a2 {
-        background: rgba(52, 211, 153, 0.12);
-        color: #34d399;
-      }
-      .card-icon.lab {
-        background: rgba(103, 232, 249, 0.12);
-        color: #67e8f9;
-      }
-      .card-icon.a3 {
-        background: rgba(167, 139, 250, 0.12);
-        color: #a78bfa;
+      .btn-report:hover {
+        background: var(--gold-light);
+        transform: translateY(-2px);
       }
 
-      /* ─── Responsive ─── */
-      @media (max-width: 1024px) {
-        aside {
-          width: 72px;
-          padding: 1.5rem 0.5rem;
+      /* ═══════════════════ FOOTER ═══════════════════ */
+      footer {
+        background: var(--green-deep);
+        padding: 3rem 2.5rem;
+        border-top: 1px solid var(--border-dark);
+      }
+
+      .footer-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .footer-logo {
+        width: 28px;
+        height: 28px;
+        border: 1.5px solid var(--gold);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .footer-logo i {
+        color: var(--gold);
+        font-size: 0.7rem;
+      }
+
+      .footer-left span {
+        font-family: var(--font-serif);
+        font-size: 1rem;
+        color: var(--cream);
+      }
+
+      .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .footer-link {
+        color: var(--text-light-muted);
+        text-decoration: none;
+        font-size: 0.82rem;
+        transition: color 0.2s;
+      }
+      .footer-link:hover {
+        color: var(--gold);
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .footer-social a {
+        color: var(--text-light-muted);
+        font-size: 1rem;
+        transition: color 0.2s;
+      }
+      .footer-social a:hover {
+        color: var(--gold);
+      }
+
+      .back-top {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: none;
+        border: 1px solid var(--border-dark);
+        color: var(--text-light-muted);
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.78rem;
+        font-weight: 500;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        transition: var(--transition);
+      }
+      .back-top:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* ═══════════════════ RESPONSIVE ═══════════════════ */
+      @media (max-width: 768px) {
+        .header-inner {
+          padding: 0 1.25rem;
         }
-        .logo span,
-        .nav-btn span,
-        .sidebar-meta,
-        .sidebar-footer {
+        .hamburger {
+          display: flex;
+        }
+
+        nav {
           display: none;
+          position: absolute;
+          top: 64px;
+          left: 0;
+          right: 0;
+          background: var(--green-deep);
+          border-bottom: 1px solid var(--border-dark);
+          flex-direction: column;
+          padding: 0.75rem;
         }
-        .logo {
-          justify-content: center;
-          margin-bottom: 2rem;
-        }
-        .nav-btn {
-          justify-content: center;
-          padding: 0.9rem;
-        }
-        .nav-btn i {
-          width: auto;
-        }
-        main {
-          margin-left: 72px;
-          padding: 2rem;
-        }
-      }
 
-      @media (max-width: 600px) {
-        main {
-          padding: 1.25rem;
+        nav.open {
+          display: flex;
         }
+
+        .hero {
+          padding: 7rem 1.25rem 3rem;
+        }
+        .section-cream,
+        .section-white,
+        .section-dark {
+          padding: 3rem 1.25rem;
+        }
+        .md-wrap {
+          padding: 2.5rem 1.25rem;
+        }
+        .detail-hero {
+          padding: 6rem 1.25rem 2.5rem;
+        }
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+
         .report-card {
           flex-direction: column;
           text-align: center;
+          padding: 1.5rem;
         }
         .report-info {
           flex-direction: column;
         }
-        .section-header h1 {
-          font-size: 1.6rem;
+
+        .footer-inner {
+          flex-direction: column;
+          gap: 1.5rem;
+          text-align: center;
         }
-        .overview-grid {
-          grid-template-columns: 1fr;
+        .footer-right {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .hero-actions {
+          flex-direction: column;
+        }
+        .btn {
+          justify-content: center;
         }
       }
     </style>
   </head>
   <body>
-    <aside>
-      <div class="logo">
-        <i class="fas fa-layer-group"></i>
-        <span>Zenith Hub</span>
-      </div>
-      <div class="sidebar-meta">M25CSA032 · MLOps</div>
-      <nav>
-        <ul id="nav-list"></ul>
-      </nav>
-      <div class="sidebar-footer">
-        <a
-          href="https://github.com/zzethh/MLOps-Zenith-M25CSA032"
-          target="_blank"
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header>
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+          <span>MLOps Zenith</span>
+        </div>
+        <button
+          class="hamburger"
+          onclick="document.querySelector('nav').classList.toggle('open')"
         >
-          <i class="fab fa-github"></i> View on GitHub
-        </a>
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav id="nav-bar"></nav>
       </div>
-    </aside>
+    </header>
 
-    <main id="main-content"></main>
+    <!-- ═══════════ MAIN ═══════════ -->
+    <div id="main-content"></div>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="footer-logo"><i class="fas fa-layer-group"></i></div>
+          <span>MLOps Zenith</span>
+        </div>
+        <div class="footer-right">
+          <div class="footer-social">
+            <a
+              href="https://github.com/zzethh/MLOps-Zenith-M25CSA032"
+              target="_blank"
+              aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+          <button
+            class="back-top"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          >
+            <i class="fas fa-arrow-up"></i> Back to Top
+          </button>
+        </div>
+      </div>
+    </footer>
 
     <script>
       const data = [
         {
           id: "main",
-          label: "Overview",
+          label: "Homepage",
           branch: "main",
-          readme:
-            "# CSL7120 — MLOps Engineering\n\nWelcome to the official repository hub for **CSL7120 — MLOps Engineering**. This workspace aggregates all research, implementation, and operations work conducted throughout the course.\n\n---\n\n## Core Workstreams\n- **Deep Learning Benchmarking** — Hardware optimization and performance analysis across GPU/CPU.\n- **Data Engineering** — Contract-driven pipeline architecture and schema governance.\n- **Model Deployment** — End-to-end HuggingFace model training, Docker containerization, and CI/CD.\n- **Experiment Tracking** — CNN training dynamics with FLOPs analysis and W&B integration.\n\n---\n\n## Repository Architecture\n| Branch | Focus |\n|:---|:---|\n| `main` | Central hub and documentation |\n| `Assignment-1` | DL Hardware & Performance Optimization |\n| `Assignment-2` | Data Contracts & Schema Governance |\n| `Assignment-3` | HuggingFace Model Training & Docker Deployment |\n| `lab2_worksheet1` | CIFAR-10 CNN Training & FLOPs Analysis |",
+          readme: "",
           report: "",
         },
         {
           id: "assignment_1",
           label: "Assignment 1",
           branch: "Assignment-1",
+          title: "Deep Learning & Hardware Benchmarking",
           readme:
             "# Deep Learning & Hardware Benchmarking\n\n**Candidate:** Zenith  \n**Roll Number:** M25CSA032  \n**Specialization:** Computer Science (AI/ML)\n\n---\n\n## Abstract\nA comprehensive benchmarking study evaluating **ResNet-18** and **ResNet-50** architectures against classical **Support Vector Machines (SVMs)**. The analysis focuses on the impact of **hardware acceleration (CPU vs GPU)** and optimization techniques like **Automatic Mixed Precision (AMP)**.\n\n---\n\n## System Architecture\n| Component | Specification |\n|:---|:---|\n| **CPU** | Dual Intel Xeon Gold 6326 (32 Cores Total) |\n| **GPU** | 2\u00d7 NVIDIA A30 Tensor Core (24GB VRAM) |\n| **RAM** | 256 GB DDR4 |\n| **Network** | NVIDIA BlueField-2 DPU Block Storage |\n\n---\n\n## ResNet Performance Metrics\n\n| Dataset | Model | BS | Optimizer | LR | Epochs | Test Acc (%) | Time (s) |\n|:---|:---|:---|:---|:---|:---|:---|:---|\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 4 | 99.24 | 174.54 |\n| MNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | **99.41** | 401.63 |\n| MNIST | ResNet-50 | 32 | Adam | 0.001 | 10 | **99.28** | 611.36 |\n| FashionMNIST | ResNet-18 | 16 | Adam | 0.001 | 10 | **92.80** | 357.84 |\n| FashionMNIST | ResNet-50 | 16 | Adam | 0.001 | 10 | **92.91** | 990.71 |\n\n---\n\n## SVM Classification Highlights (CPU-Only)\n\n| Dataset | Kernel | Test Acc (%) | Training Time (ms) |\n|:---|:---|:---|:---|\n| MNIST | RBF | **97.92** | 162,137 |\n| FashionMNIST | RBF | **88.28** | 222,573 |\n\n---\n\n## Hardware Acceleration Impact (CPU vs GPU)\n\n| Device | Model | Optimizer | Epochs | Time (s) | Speedup |\n|:---|:---|:---|:---|:---|:---|\n| CPU | ResNet-18 | Adam | 10 | 3161.05 | - |\n| GPU (A30) | ResNet-18 | Adam | 10 | **780.54** | **4.0x** |\n| CPU | ResNet-50 | Adam | 10 | 7221.72 | - |\n| GPU (A30) | ResNet-50 | Adam | 10 | **1432.99** | **5.0x** |",
           report: "public/reports/Assignment-1/M25CSA032_Zenith_Ass1.pdf",
@@ -660,6 +972,7 @@
           id: "assignment_2",
           label: "Assignment 2",
           branch: "Assignment-2",
+          title: "Data Contracts & Schema Governance",
           readme:
             "# Data Contracts & Schema Governance\n\nImplementation of YAML-driven data contracts using the **Data Contract Specification (0.9.3)**. This approach ensures schema stability and clear ownership between producers and consumers in ML pipelines.\n\n---\n\n## Active Contracts\n\n| Contract | Application | Primary Domain |\n|:---|:---|:---|\n| `fintech_contract.yaml` | Fraud detection transaction logs with 10-char strict ID validation. | Fintech |\n| `orders_contract.yaml` | E-commerce order streams with non-negative validation and status enums. | Retail |\n| `rides_contract.yaml` | Dynamic pricing ML features with stable schema and PII masking. | Logistics |\n| `thermostat_contract.yaml` | IoT fleet telemetry with batch physical range validation (-30\u00b0C to 60\u00b0C). | IoT |\n\n---\n\n## Structural Design\n- **Info Layer**: Owner, classification, and SLA definitions.\n- **Schema Layer**: Type safety, patterns, and PII flags.\n- **Quality Layer**: Expectation-driven validation rules (\u2264, \u2265, regex).\n\n---\n\n## Contract Files\n| File | Description |\n|:---|:---|\n| `fintech_contract.yaml` | Bank Transaction Log — real-time records for fraud detection |\n| `orders_contract.yaml` | Black Friday Flash Sale Orders — marketing dashboard stream |\n| `rides_contract.yaml` | CityMove Ride-Share — dynamic pricing ML features |\n| `thermostat_contract.yaml` | Smart Thermostat Fleet — temperature & battery telemetry |",
           report: "",
@@ -668,6 +981,7 @@
           id: "lab2_worksheet1",
           label: "Lab 2",
           branch: "lab2_worksheet1",
+          title: "CNN Training Dynamics & Computational Analysis",
           readme:
             "# CNN Training Dynamics & Computational Analysis\n\n**Dataset:** CIFAR-10  \n**Focus:** FLOPs Analysis, Gradient Flow, and W&B Experiment Tracking.\n\n---\n\n## Model Architecture: SimpleCNN\n| Layer Type | Configuration | Output Shape |\n|:---|:---|:---|\n| **Convolutional** | 4 Blocks (Conv + BN + ReLU + Pool) | 128 Channels |\n| **Classifier** | 2 Fully Connected Layers | 10 Classes |\n| **Regularization** | Dropout (p=0.5) | - |\n\n---\n\n## Performance Summary\n| Metric | Result |\n|:---|:---|\n| **Final Test Accuracy** | **84.54%** |\n| **Computational Cost** | **0.1612 GFLOPs / Sample** |\n| **Training Duration** | 30 Epochs |\n\n---\n\n## Observability\nAll training dynamics, including **Gradient Flow** and **Weight Update Flow**, are logged to **Weights & Biases** to ensure stable convergence and debugging of vanishing/exploding gradients.\n\n---\n\n### Interactive Experiment Tracking\n[View Full W&B Dashboard](https://wandb.ai/lab72343/lab2_cifar10)",
           report:
@@ -677,13 +991,14 @@
           id: "assignment_3",
           label: "Assignment 3",
           branch: "Assignment-3",
+          title: "End-to-End HuggingFace Model Training & Docker Deployment",
           readme:
-            "# End-to-End HuggingFace Model Training & Docker Deployment\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Overview\nFine-tuning `distilbert-base-cased` on the **UCSD Goodreads** dataset for **8-genre book review classification**. The pipeline includes training, evaluation, HuggingFace Hub deployment, and Docker containerization.\n\n---\n\n## Model Details\n| Property | Value |\n|:---|:---|\n| **Architecture** | DistilBERT Base Cased |\n| **Task** | Sequence Classification (Genre Classification) |\n| **Dataset** | Goodreads Reviews (8 genres) |\n| **Accuracy** | **55.4%** |\n| **Weighted F1** | **0.547** |\n\n**Genres:** Children, Comics & Graphic, Fantasy & Paranormal, History & Biography, Mystery/Thriller/Crime, Poetry, Romance, Young Adult\n\n---\n\n## Evaluation Results (Local vs Hub)\n| Metric | Local | Hub | Diff |\n|:---|:---|:---|:---|\n| Accuracy | 0.5538 | 0.5538 | 0.0000 |\n| Weighted F1 | 0.5471 | 0.5471 | 0.0000 |\n| Weighted Precision | 0.5455 | 0.5455 | 0.0000 |\n| Weighted Recall | 0.5538 | 0.5538 | 0.0000 |\n\n---\n\n## Artifacts\n- **HuggingFace Model:** [Zenith754/goodreads-bert-classifier](https://huggingface.co/Zenith754/goodreads-bert-classifier/tree/main)\n- **Docker Image:** `mlops-assignment` (local), `mlops-eval` (production)\n\n---\n\n## Project Structure\n```\n├── Dockerfile              # Dev image (local model bundled)\n├── Dockerfile.eval         # Production image (pulls from HF Hub)\n├── requirements.txt\n├── src/\n│   ├── data.py             # Goodreads dataset streaming & tokenization\n│   ├── train.py            # Training with HF Trainer API\n│   ├── eval.py             # Evaluation (supports --mode local|hub)\n│   ├── utils.py            # Metrics & visualization functions\n│   └── hub_eval_entry.py   # Docker entrypoint for Hub evaluation\n├── results/                # Evaluation outputs & visualizations\n├── logs/                   # Execution logs\n└── report/                 # LaTeX report\n```\n\n---\n\n## Workflow\n1.  **Fine-tuning:** Trained on UCSD Goodreads dataset with HuggingFace Trainer API.\n2.  **Docker:** Containerized environment for reproducibility (dev + production images).\n3.  **Hub Deployment:** Model pushed to HuggingFace Hub for versioned access.\n4.  **CI/CD:** Scripts for automated local and hub evaluation with comparison.",
-          report: "report/m25csa032_report.pdf",
+            "# End-to-End HuggingFace Model Training & Docker Deployment\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Overview\nFine-tuning `distilbert-base-cased` on the **UCSD Goodreads** dataset for **8-genre book review classification**. The pipeline includes training, evaluation, HuggingFace Hub deployment, and Docker containerization.\n\n---\n\n## Model Details\n| Property | Value |\n|:---|:---|\n| **Architecture** | DistilBERT Base Cased |\n| **Task** | Sequence Classification (Genre Classification) |\n| **Dataset** | Goodreads Reviews (8 genres) |\n| **Accuracy** | **55.4%** |\n| **Weighted F1** | **0.547** |\n\n**Genres:** Children, Comics & Graphic, Fantasy & Paranormal, History & Biography, Mystery/Thriller/Crime, Poetry, Romance, Young Adult\n\n---\n\n## Evaluation Results (Local vs Hub)\n| Metric | Local | Hub | Diff |\n|:---|:---|:---|:---|\n| Accuracy | 0.5538 | 0.5538 | 0.0000 |\n| Weighted F1 | 0.5471 | 0.5471 | 0.0000 |\n| Weighted Precision | 0.5455 | 0.5455 | 0.0000 |\n| Weighted Recall | 0.5538 | 0.5538 | 0.0000 |\n\n---\n\n## Artifacts\n- **HuggingFace Model:** [Zenith754/goodreads-bert-classifier](https://huggingface.co/Zenith754/goodreads-bert-classifier/tree/main)\n- **Docker Image:** `mlops-assignment` (local), `mlops-eval` (production)\n\n---\n\n## Project Structure\n```\n\u251c\u2500\u2500 Dockerfile              # Dev image (local model bundled)\n\u251c\u2500\u2500 Dockerfile.eval         # Production image (pulls from HF Hub)\n\u251c\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 data.py             # Goodreads dataset streaming & tokenization\n\u2502   \u251c\u2500\u2500 train.py            # Training with HF Trainer API\n\u2502   \u251c\u2500\u2500 eval.py             # Evaluation (supports --mode local|hub)\n\u2502   \u251c\u2500\u2500 utils.py            # Metrics & visualization functions\n\u2502   \u2514\u2500\u2500 hub_eval_entry.py   # Docker entrypoint for Hub evaluation\n\u251c\u2500\u2500 results/                # Evaluation outputs & visualizations\n\u251c\u2500\u2500 logs/                   # Execution logs\n\u2514\u2500\u2500 report/                 # LaTeX report\n```\n\n---\n\n## Workflow\n1.  **Fine-tuning:** Trained on UCSD Goodreads dataset with HuggingFace Trainer API.\n2.  **Docker:** Containerized environment for reproducibility (dev + production images).\n3.  **Hub Deployment:** Model pushed to HuggingFace Hub for versioned access.\n4.  **CI/CD:** Scripts for automated local and hub evaluation with comparison.",
+          report: "public/reports/Assignment-3/m25csa032_report.pdf",
         },
       ];
 
-      const navList = document.getElementById("nav-list");
+      const navBar = document.getElementById("nav-bar");
       const mainContent = document.getElementById("main-content");
 
       const icons = {
@@ -698,75 +1013,158 @@
         {
           id: "assignment_1",
           icon: "fas fa-bolt",
-          iconClass: "a1",
+          iconClass: "gold",
           title: "Assignment 1",
-          desc: "ResNet & SVM benchmarking across CPU/GPU hardware with AMP optimization.",
+          desc: "ResNet & SVM benchmarking across CPU/GPU hardware with AMP optimization on DPU\u2013GPU HPC Cluster.",
           branch: "Assignment-1",
         },
         {
           id: "assignment_2",
           icon: "fas fa-shield-halved",
-          iconClass: "a2",
+          iconClass: "green",
           title: "Assignment 2",
-          desc: "YAML-driven data contracts ensuring schema stability across ML pipelines.",
+          desc: "YAML-driven data contracts for schema stability and clear ownership across ML pipelines.",
           branch: "Assignment-2",
         },
         {
           id: "lab2_worksheet1",
           icon: "fas fa-flask-vial",
-          iconClass: "lab",
+          iconClass: "gold",
           title: "Lab 2",
-          desc: "CIFAR-10 CNN training with FLOPs analysis, gradient flow, and W&B tracking.",
+          desc: "CIFAR-10 CNN training with FLOPs analysis, gradient flow tracking, and W&B integration.",
           branch: "lab2_worksheet1",
         },
         {
           id: "assignment_3",
           icon: "fas fa-rocket",
-          iconClass: "a3",
+          iconClass: "green",
           title: "Assignment 3",
-          desc: "DistilBERT fine-tuning on Goodreads dataset with Docker & HuggingFace Hub deployment.",
+          desc: "DistilBERT fine-tuning on Goodreads dataset with Docker containerization and HuggingFace Hub deployment.",
           branch: "Assignment-3",
         },
       ];
 
-      function render() {
-        data.forEach((item, index) => {
-          // Navigation
-          const li = document.createElement("li");
-          li.innerHTML = `<button class="nav-btn ${index === 0 ? "active" : ""}" onclick="showSection('${item.id}', this)"><i class="${icons[item.id] || "fas fa-folder"}"></i><span>${item.label}</span></button>`;
-          navList.appendChild(li);
-
-          // Content section
-          const section = document.createElement("section");
-          section.id = `section-${item.id}`;
-          section.className = `content-section ${index === 0 ? "active" : ""}`;
-
-          let contentHTML = `<div class="section-header"><h1>${item.label}</h1><span class="branch-tag"><i class="fas fa-code-branch"></i>${item.branch}</span></div>`;
-          contentHTML += `<div class="markdown-body">${marked.parse(item.readme || "*No content available.*")}</div>`;
-
-          // Overview cards for main page
-          if (item.id === "main") {
-            contentHTML += `<h2>Quick Navigation</h2><div class="overview-grid">`;
-            overviewCards.forEach((card) => {
-              contentHTML += `
-                <div class="overview-card" onclick="showSection('${card.id}', document.querySelector('[onclick*=\\'${card.id}\\']'))">
-                  <div class="card-icon ${card.iconClass}"><i class="${card.icon}"></i></div>
-                  <h3>${card.title}</h3>
-                  <p>${card.desc}</p>
-                  <span class="card-branch"><i class="fas fa-code-branch"></i> ${card.branch}</span>
-                </div>`;
-            });
-            contentHTML += `</div>`;
-          }
-
-          // Report card
-          if (item.report) {
-            contentHTML += `<div class="report-card"><div class="report-info"><i class="fas fa-file-pdf report-icon"></i><div><h3>Analysis Report</h3><p>Technical documentation and experimental findings.</p></div></div><a href="${item.report}" target="_blank" class="btn-download"><i class="fas fa-arrow-up-right-from-square"></i>Open PDF</a></div>`;
-          }
-
-          section.innerHTML = contentHTML;
-          mainContent.appendChild(section);
+      function buildNav() {
+        data.forEach((item, i) => {
+          const btn = document.createElement("button");
+          btn.className = `nav-btn ${i === 0 ? "active" : ""}`;
+          btn.textContent = item.label;
+          btn.onclick = () => showSection(item.id, btn);
+          navBar.appendChild(btn);
         });
+      }
+
+      function buildOverviewPage() {
+        return `
+          <section id="section-main" class="content-section active">
+            <div class="hero">
+              <div class="hero-inner">
+                <div class="hero-label">CSL7120 \u2014 MLOps Engineering</div>
+                <h1>Machine Learning Operations Repository</h1>
+                <p>A comprehensive workspace aggregating all research, implementation, and operations work. From deep learning benchmarking to model deployment with Docker and HuggingFace.</p>
+                <div class="hero-actions">
+                  <a href="https://github.com/zzethh/MLOps-Zenith-M25CSA032" target="_blank" class="btn btn-gold">
+                    <i class="fab fa-github"></i> View Repository
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-cream">
+              <div class="container">
+                <div class="section-label">Repository Architecture</div>
+                <div class="section-title">Explore the Workstreams</div>
+                <div class="section-subtitle">Each assignment and lab lives on its own branch. Click a card below to dive into the details.</div>
+                <div class="cards-grid">
+                  ${overviewCards
+                    .map(
+                      (card) => `
+                    <div class="card" onclick="showSection('${card.id}', document.querySelector('.nav-btn[data-id=${card.id}]'))">
+                      <div class="card-icon ${card.iconClass}"><i class="${card.icon}"></i></div>
+                      <h3>${card.title}</h3>
+                      <p>${card.desc}</p>
+                      <span class="card-branch"><i class="fas fa-code-branch"></i> ${card.branch}</span>
+                      <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                  `,
+                    )
+                    .join("")}
+                </div>
+              </div>
+            </div>
+
+            <div class="section-dark">
+              <div class="container">
+                <div class="section-label light">Branch Overview</div>
+                <div class="section-title light">Repository Architecture</div>
+                <div class="section-subtitle light">All work is organized into isolated branches for clean separation of concerns.</div>
+                <div class="markdown-body" style="color:var(--text-light-muted);">
+                  ${marked.parse("| Branch | Focus |\\n|:---|:---|\\n| \\`main\\` | Central hub and documentation |\\n| \\`Assignment-1\\` | DL Hardware & Performance Optimization |\\n| \\`Assignment-2\\` | Data Contracts & Schema Governance |\\n| \\`Assignment-3\\` | HuggingFace Model Training & Docker Deployment |\\n| \\`lab2_worksheet1\\` | CIFAR-10 CNN Training & FLOPs Analysis |")}
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function buildDetailPage(item) {
+        let html = `
+          <section id="section-${item.id}" class="content-section">
+            <div class="detail-hero">
+              <div class="container">
+                <button class="back-btn" onclick="showSection('main', document.querySelector('.nav-btn[data-id=main]'))">
+                  <i class="fas fa-arrow-left"></i> Back to Overview
+                </button>
+                <div class="hero-label">${item.label}</div>
+                <h1>${item.title || item.label}</h1>
+                <span class="branch-badge"><i class="fas fa-code-branch"></i> ${item.branch}</span>
+              </div>
+            </div>
+            <div class="md-wrap">
+              <div class="markdown-body">${marked.parse(item.readme || "*No content.*")}</div>
+              ${
+                item.report
+                  ? `
+                <div class="report-card">
+                  <div class="report-info">
+                    <div class="report-icon-wrap"><i class="fas fa-file-pdf"></i></div>
+                    <div>
+                      <h3>Analysis Report</h3>
+                      <p>Comprehensive technical documentation and experimental findings.</p>
+                    </div>
+                  </div>
+                  <a href="${item.report}" target="_blank" class="btn-report">
+                    <i class="fas fa-arrow-up-right-from-square"></i> Open PDF
+                  </a>
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          </section>
+        `;
+        return html;
+      }
+
+      function render() {
+        // Build nav with data-id attributes
+        data.forEach((item, i) => {
+          const btn = document.createElement("button");
+          btn.className = `nav-btn ${i === 0 ? "active" : ""}`;
+          btn.textContent = item.label;
+          btn.setAttribute("data-id", item.id);
+          btn.onclick = () => showSection(item.id, btn);
+          navBar.appendChild(btn);
+        });
+
+        // Build content
+        let contentHTML = buildOverviewPage();
+        data.forEach((item) => {
+          if (item.id !== "main") {
+            contentHTML += buildDetailPage(item);
+          }
+        });
+        mainContent.innerHTML = contentHTML;
       }
 
       window.showSection = (id, btn) => {
@@ -776,9 +1174,17 @@
         document
           .querySelectorAll(".nav-btn")
           .forEach((b) => b.classList.remove("active"));
-        document.getElementById(`section-${id}`).classList.add("active");
-        if (btn) btn.classList.add("active");
+
+        const section = document.getElementById(`section-${id}`);
+        if (section) section.classList.add("active");
+
+        const navBtn = document.querySelector(`.nav-btn[data-id="${id}"]`);
+        if (navBtn) navBtn.classList.add("active");
+
         window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Close mobile menu
+        document.querySelector("nav").classList.remove("open");
       };
 
       render();
