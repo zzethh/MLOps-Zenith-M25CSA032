@@ -38,8 +38,7 @@ Fine-tuning `distilbert-base-cased` on the UCSD Goodreads dataset for 8-genre bo
 │   └── hub_eval_entry.py   # Docker entrypoint for Hub evaluation
 ├── results/                # Evaluation outputs & visualizations
 ├── logs/                   # Execution logs
-├── final_model/            # Trained model weights
-└── report/                 # LaTeX report & compiled PDF
+└── report/                 # report
 ```
 
 ## Quick Start
