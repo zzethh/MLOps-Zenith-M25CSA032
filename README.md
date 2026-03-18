@@ -96,15 +96,3 @@ This will run 20 trials (OptunaSearch) capped at 15 epochs each, and then retrai
 
 The best tuned model weights (`m25csa032_ass_4_best_model.pth`), vocabularies (`en_vocab.pkl`, `hi_vocab.pkl`), and config (`best_config_and_metrics.json`) are hosted on HuggingFace:  
 [https://huggingface.co/Zenith754/m25csa032-en-hi-transformer](https://huggingface.co/Zenith754/m25csa032-en-hi-transformer)
-
-## Report PDF compilation
-
-This workspace environment may not include a LaTeX engine. To generate the required PDF:
-
-- **Option A (Overleaf)**: upload `m25csa032_ass_4_report.tex` and download `m25csa032_ass_4_report.pdf`.
-- **Option B (local TeX Live)**:
-
-```bash
-cd ass4_dlops
-pdflatex -interaction=nonstopmode -halt-on-error m25csa032_ass_4_report.tex
-```
