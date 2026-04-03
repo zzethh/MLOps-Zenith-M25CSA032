@@ -1,13 +1,19 @@
-# CSL7120 – ML / DL / Ops Course Submissions
+# CSL7120 — MLOps Zenith (M25CSA032)
 
-This repository contains all my submissions for the course **CSL7120 (Machine Learning, Deep Learning & Operations)**.
+This repository contains all submissions for **CSL7120 — MLOps Engineering**.
+
+🌐 **GitHub Pages:** [zzethh.github.io/MLOps-Zenith-M25CSA032](https://zzethh.github.io/MLOps-Zenith-M25CSA032/)
 
 ## Branch Structure
 
-- `main` – Repository overview and course-level information
-- `Assignment-1` – Deep Learning Assignment 1
-- `lab2_worksheet1` – Lab 2 Worksheet 1
-- `Assignment-2` – Data Contracts & Schema Governance
-- `Assignment-3` – End-to-End Hugging Face & Docker Deployment
+| Branch | Focus |
+|:---|:---|
+| `main` | Central hub and documentation |
+| `Assignment-1` | DL Hardware & Performance Optimization |
+| `Assignment-2` | Data Contracts & Schema Governance |
+| `Assignment-3` | HuggingFace Model Training & Docker Deployment |
+| `Assignment-4` | Transformer Tuning — EN→HI Translation |
+| `Assignment-5` | LoRA Fine-Tuning & Adversarial Robustness (IBM ART) |
+| `lab2_worksheet1` | CIFAR-10 CNN Training & FLOPs Analysis |
 
 Each assignment/lab is maintained in its **own branch**.
