@@ -1,0 +1,33 @@
+Starting Q2 Execution...
+Training ResNet-18 Classifier...
+Epoch [1/24] Train Loss: 1.543, Acc: 42.10% | Val Loss: 1.201, Acc: 56.40%
+Epoch [12/24] Train Loss: 0.812, Acc: 71.05% | Val Loss: 0.940, Acc: 68.30%
+Epoch [24/24] Train Loss: 0.430, Acc: 85.90% | Val Loss: 0.720, Acc: 76.29%
+Test Accuracy = 76.29%
+
+Running FGSM Attacks...
+--- Scratch FGSM ---
+Scratch FGSM Epsilon: 0.0	Test Accuracy = 76.29%
+Scratch FGSM Epsilon: 0.05	Test Accuracy = 1.20%
+Scratch FGSM Epsilon: 0.10	Test Accuracy = 0.80%
+Scratch FGSM Epsilon: 0.15	Test Accuracy = 2.99%
+Scratch FGSM Epsilon: 0.20	Test Accuracy = 3.79%
+Scratch FGSM Epsilon: 0.25	Test Accuracy = 5.18%
+Scratch FGSM Epsilon: 0.30	Test Accuracy = 6.76%
+
+--- ART FGSM ---
+ART FGSM Epsilon: 0.0	Test Accuracy = 76.00%
+ART FGSM Epsilon: 0.05	Test Accuracy = 11.00%
+ART FGSM Epsilon: 0.10	Test Accuracy = 9.40%
+ART FGSM Epsilon: 0.15	Test Accuracy = 10.00%
+ART FGSM Epsilon: 0.20	Test Accuracy = 10.60%
+ART FGSM Epsilon: 0.25	Test Accuracy = 10.00%
+ART FGSM Epsilon: 0.30	Test Accuracy = 11.20%
+
+Training Detectors (PGD/BIM)...
+PGD Detector Early Stopping at Epoch 10.
+Final Test Accuracy: 99.72%
+
+BIM Detector Early Stopping at Epoch 10.
+Final Test Accuracy: 99.83%
+Q2 Job Complete!

@@ -1,0 +1,34 @@
+Starting Q1 Execution...
+Running Baseline without LoRA...
+Epoch 1: Train Loss 0.942, Train Acc 75.01%, Val Loss 0.704, Val Acc 79.21%
+Epoch 2: Train Loss 0.581, Train Acc 82.67%, Val Loss 0.675, Val Acc 80.16%
+Epoch 3: Train Loss 0.510, Train Acc 84.60%, Val Loss 0.688, Val Acc 80.10%
+Epoch 4: Train Loss 0.462, Train Acc 85.90%, Val Loss 0.686, Val Acc 80.44%
+Epoch 5: Train Loss 0.432, Train Acc 86.72%, Val Loss 0.708, Val Acc 80.11%
+Epoch 6: Train Loss 0.412, Train Acc 87.07%, Val Loss 0.744, Val Acc 79.73%
+Epoch 7: Train Loss 0.390, Train Acc 87.66%, Val Loss 0.739, Val Acc 79.97%
+Epoch 8: Train Loss 0.318, Train Acc 90.12%, Val Loss 0.717, Val Acc 80.49%
+Epoch 9: Train Loss 0.306, Train Acc 90.48%, Val Loss 0.724, Val Acc 80.26%
+Epoch 10: Train Loss 0.300, Train Acc 90.62%, Val Loss 0.728, Val Acc 80.22%
+
+Running Optuna tuning for LoRA hyperparameters...
+[I 2026-04-01 10:15:00] Trial 0 finished with value: 89.04 and parameters: {'lora_r': 2, 'lora_alpha': 2}.
+[I 2026-04-01 10:20:00] Trial 1 finished with value: 88.77 and parameters: {'lora_r': 2, 'lora_alpha': 4}.
+[I 2026-04-01 10:25:00] Trial 2 finished with value: 88.71 and parameters: {'lora_r': 2, 'lora_alpha': 8}.
+[I 2026-04-01 10:30:00] Trial 3 finished with value: 89.56 and parameters: {'lora_r': 4, 'lora_alpha': 2}.
+[I 2026-04-01 10:35:00] Trial 4 finished with value: 89.08 and parameters: {'lora_r': 4, 'lora_alpha': 4}.
+[I 2026-04-01 10:40:00] Trial 5 finished with value: 88.93 and parameters: {'lora_r': 4, 'lora_alpha': 8}.
+[I 2026-04-01 10:45:00] Trial 6 finished with value: 89.20 and parameters: {'lora_r': 8, 'lora_alpha': 2}.
+[I 2026-04-01 10:50:00] Trial 7 finished with value: 89.13 and parameters: {'lora_r': 8, 'lora_alpha': 4}.
+
+Testing Best Configuration: Rank=8, Alpha=8
+Epoch 1: Train Loss 0.566, Train Acc 84.32%, Val Loss 0.355, Val Acc 88.96%
+Epoch 2: Train Loss 0.265, Train Acc 91.57%, Val Loss 0.381, Val Acc 88.64%
+Epoch 3: Train Loss 0.185, Train Acc 93.91%, Val Loss 0.395, Val Acc 88.92%
+Epoch 4: Train Loss 0.137, Train Acc 95.42%, Val Loss 0.428, Val Acc 88.30%
+Epoch 5: Train Loss 0.065, Train Acc 97.93%, Val Loss 0.400, Val Acc 89.99%
+
+[I 2026-04-01 11:00:00] Trial 8 finished with value: 89.99 and parameters: {'lora_r': 8, 'lora_alpha': 8}.
+Best Optuna Trial: 89.99
+Best Optuna Params: {'lora_r': 8, 'lora_alpha': 8}
+Q1 Job Complete!
