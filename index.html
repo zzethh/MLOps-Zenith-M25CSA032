@@ -996,6 +996,24 @@
             "# End-to-End HuggingFace Model Training & Docker Deployment\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Overview\nFine-tuning `distilbert-base-cased` on the **UCSD Goodreads** dataset for **8-genre book review classification**. The pipeline includes training, evaluation, HuggingFace Hub deployment, and Docker containerization.\n\n---\n\n## Model Details\n| Property | Value |\n|:---|:---|\n| **Architecture** | DistilBERT Base Cased |\n| **Task** | Sequence Classification (Genre Classification) |\n| **Dataset** | Goodreads Reviews (8 genres) |\n| **Accuracy** | **55.4%** |\n| **Weighted F1** | **0.547** |\n\n**Genres:** Children, Comics & Graphic, Fantasy & Paranormal, History & Biography, Mystery/Thriller/Crime, Poetry, Romance, Young Adult\n\n---\n\n## Evaluation Results (Local vs Hub)\n| Metric | Local | Hub | Diff |\n|:---|:---|:---|:---|\n| Accuracy | 0.5538 | 0.5538 | 0.0000 |\n| Weighted F1 | 0.5471 | 0.5471 | 0.0000 |\n| Weighted Precision | 0.5455 | 0.5455 | 0.0000 |\n| Weighted Recall | 0.5538 | 0.5538 | 0.0000 |\n\n---\n\n## Artifacts\n- **HuggingFace Model:** [Zenith754/goodreads-bert-classifier](https://huggingface.co/Zenith754/goodreads-bert-classifier/tree/main)\n- **Docker Image:** `mlops-assignment` (local), `mlops-eval` (production)\n\n---\n\n## Project Structure\n```\n\u251c\u2500\u2500 Dockerfile              # Dev image (local model bundled)\n\u251c\u2500\u2500 Dockerfile.eval         # Production image (pulls from HF Hub)\n\u251c\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 data.py             # Goodreads dataset streaming & tokenization\n\u2502   \u251c\u2500\u2500 train.py            # Training with HF Trainer API\n\u2502   \u251c\u2500\u2500 eval.py             # Evaluation (supports --mode local|hub)\n\u2502   \u251c\u2500\u2500 utils.py            # Metrics & visualization functions\n\u2502   \u2514\u2500\u2500 hub_eval_entry.py   # Docker entrypoint for Hub evaluation\n\u251c\u2500\u2500 results/                # Evaluation outputs & visualizations\n\u251c\u2500\u2500 logs/                   # Execution logs\n\u2514\u2500\u2500 report/                 # LaTeX report\n```\n\n---\n\n## Workflow\n1.  **Fine-tuning:** Trained on UCSD Goodreads dataset with HuggingFace Trainer API.\n2.  **Docker:** Containerized environment for reproducibility (dev + production images).\n3.  **Hub Deployment:** Model pushed to HuggingFace Hub for versioned access.\n4.  **CI/CD:** Scripts for automated local and hub evaluation with comparison.",
           report: "public/reports/Assignment-3/m25csa032_report.pdf",
         },
+        {
+          id: "assignment_4",
+          label: "Assignment 4",
+          branch: "Assignment-4",
+          title: "Transformer Tuning — English to Hindi Translation",
+          readme:
+            "# Transformer Tuning — English \u2192 Hindi Translation\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Overview\nBaseline run and **Ray Tune + Optuna** hyperparameter tuning for a from-scratch Transformer translation model (English \u2192 Hindi).\n\n---\n\n## Key Results\n\n### Baseline (100 Epochs)\n| Metric | Value |\n|:---|:---|\n| **Training Time** | 56.89 min |\n| **Final Loss** | 0.0975 |\n| **BLEU Score** | **71.47** |\n\n### Tuned (Best HP, 40 Epochs)\n| Metric | Value |\n|:---|:---|\n| **Training Time** | 22.44 min |\n| **Final Loss** | 0.1764 |\n| **BLEU Score** | **94.57** |\n\n---\n\n## Best Hyperparameters (Optuna)\n| Parameter | Value |\n|:---|:---|\n| **Batch Size** | 32 |\n| **Num Heads** | 8 |\n| **Feed-Forward Dim** | 2048 |\n| **Dropout** | 0.1495 |\n| **Learning Rate** | 1.23e-4 |\n\n---\n\n## Artifacts\n- **HuggingFace Model:** [Zenith754/m25csa032-en-hi-transformer](https://huggingface.co/Zenith754/m25csa032-en-hi-transformer)\n- **Tuning:** 20 trials via OptunaSearch, 15 epochs per trial",
+          report: "public/reports/Assignment-4/m25csa032_ass_4_report.pdf",
+        },
+        {
+          id: "assignment_5",
+          label: "Assignment 5",
+          branch: "Assignment-5",
+          title: "LoRA Fine-Tuning \u0026 Adversarial Robustness (IBM ART)",
+          readme:
+            "# LoRA Fine-Tuning \u0026 Adversarial Robustness (IBM ART)\n\n**Candidate:** Zenith (M25CSA032)\n\n---\n\n## Q1: ViT-Small + LoRA on CIFAR-100\n\nFine-tuning **Vision Transformer (ViT-Small)** with **PEFT LoRA** on CIFAR-100 using Optuna GridSearch over 9 rank/alpha combinations.\n\n| Resource | Link |\n|:---|:---|\n| **WandB Project** | [dlops-ass5-q1](https://wandb.ai/lab72343/dlops-ass5-q1) |\n| **HuggingFace Model** | [Zenith754/vit-small-lora-cifar100](https://huggingface.co/Zenith754/vit-small-lora-cifar100) |\n\n---\n\n## Q2: Adversarial Attacks using IBM ART on CIFAR-10\n\nImplementation of **FGSM** from scratch and via **IBM ART**, plus a **ResNet-34 adversarial detector** trained against PGD/BIM attacks.\n\n| Resource | Link |\n|:---|:---|\n| **WandB Project** | [dlops-ass5-q2](https://wandb.ai/lab72343/dlops-ass5-q2) |\n\n---\n\n## Project Structure\n```\ndlops_ass5/\n\u251c\u2500\u2500 q1_vit_lora/          # ViT + LoRA training pipeline\n\u251c\u2500\u2500 q2_adv_attacks/       # FGSM, PGD/BIM attacks \u0026 detector\n\u251c\u2500\u2500 report/               # LaTeX report \u0026 figures\n\u251c\u2500\u2500 logs/                 # Slurm execution logs\n\u251c\u2500\u2500 Dockerfile\n\u2514\u2500\u2500 requirements.txt\n```\n\n---\n\n## Docker\n```bash\ndocker build -t dlops_ass5 .\ndocker run --gpus all -v $(pwd):/app -it dlops_ass5 /bin/bash\n```",
+          report: "public/reports/Assignment-5/M25CSA032_Zenith_Ass5.pdf",
+        },
       ];
 
       const navBar = document.getElementById("nav-bar");
@@ -1007,6 +1025,8 @@
         assignment_2: "fas fa-shield-halved",
         lab2_worksheet1: "fas fa-flask-vial",
         assignment_3: "fas fa-rocket",
+        assignment_4: "fas fa-language",
+        assignment_5: "fas fa-brain",
       };
 
       const overviewCards = [
@@ -1041,6 +1061,22 @@
           title: "Assignment 3",
           desc: "DistilBERT fine-tuning on Goodreads dataset with Docker containerization and HuggingFace Hub deployment.",
           branch: "Assignment-3",
+        },
+        {
+          id: "assignment_4",
+          icon: "fas fa-language",
+          iconClass: "gold",
+          title: "Assignment 4",
+          desc: "From-scratch Transformer (EN\u2192HI) with Ray Tune + Optuna hyperparameter optimization. BLEU 71\u219294.",
+          branch: "Assignment-4",
+        },
+        {
+          id: "assignment_5",
+          icon: "fas fa-brain",
+          iconClass: "green",
+          title: "Assignment 5",
+          desc: "ViT-Small LoRA fine-tuning on CIFAR-100 and adversarial robustness with IBM ART on CIFAR-10.",
+          branch: "Assignment-5",
         },
       ];
 
@@ -1099,7 +1135,7 @@
                 <div class="section-title light">Repository Architecture</div>
                 <div class="section-subtitle light">All work is organized into isolated branches for clean separation of concerns.</div>
                 <div class="markdown-body" style="color:var(--text-light-muted);">
-                  ${marked.parse("| Branch | Focus |\\n|:---|:---|\\n| \\`main\\` | Central hub and documentation |\\n| \\`Assignment-1\\` | DL Hardware & Performance Optimization |\\n| \\`Assignment-2\\` | Data Contracts & Schema Governance |\\n| \\`Assignment-3\\` | HuggingFace Model Training & Docker Deployment |\\n| \\`lab2_worksheet1\\` | CIFAR-10 CNN Training & FLOPs Analysis |")}
+                  ${marked.parse("| Branch | Focus |\\n|:---|:---|\\n| \\`main\\` | Central hub and documentation |\\n| \\`Assignment-1\\` | DL Hardware & Performance Optimization |\\n| \\`Assignment-2\\` | Data Contracts & Schema Governance |\\n| \\`Assignment-3\\` | HuggingFace Model Training & Docker Deployment |\\n| \\`Assignment-4\\` | Transformer Tuning — EN\u2192HI Translation |\\n| \\`Assignment-5\\` | LoRA Fine-Tuning & Adversarial Robustness (IBM ART) |\\n| \\`lab2_worksheet1\\` | CIFAR-10 CNN Training & FLOPs Analysis |")}
                 </div>
               </div>
             </div>
