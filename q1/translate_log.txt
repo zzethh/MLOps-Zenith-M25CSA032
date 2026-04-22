@@ -1,0 +1,30 @@
+/DATA/anikde/miniconda3/envs/genai/lib/python3.10/site-packages/transformers/models/marian/tokenization_marian.py:175: UserWarning: Recommended: pip install sacremoses.
+  warnings.warn("Recommended: pip install sacremoses.")
+/DATA/anikde/miniconda3/envs/genai/lib/python3.10/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Total sentences: 20
+1: I've got the fairy's wish today, even if it's not too much for us to eat, we're going to make sure that we're back to work on our feet for the bride's sake.
+2: If you're at the beginning of this project with some of the world's problems, I'm trying to talk to you about my thoughts on the project, then we're just going to save that big loss to the ground.
+3: Bedians warn that she is not going to test the speed in technology circuits that she is not looking for new skills to reach, whether to tea with Ra Bha Bha or to go hard to win.
+4: Not as much as he does not Kn, what happens to each member of the race to the next, with a touch of "kao no" which is true at least a quality.
+5: The more we learn about Shi Shi Puy BV's b V-not and finally Ha-ha, the more we realize that in the early morning, 'Mou Li Abe' is the same in all of the Jagga.
+6: Before the meeting, there is no way for any other member of the family to feel the same way.
+7: If Sachka don't take the view, the city would find it difficult to control the tides and the wirings for ten years.
+8: She is the mother-to-one of the boys who can understand her pain and raise her legs to John, and she is the oldest woman to be a mother to the day.
+9: Lastka La I'm the one who reads the book I've been reading in the whole book of no books.
+10: Let the show off in the money chain and in the Ra Sona river not stop reading it, celebrated by Shi’a side instead of the forests of Ra Sona.
+11: After years of valuation, Bior She is a system that is capable of debacleing B pure foot at low cost.
+12: Even if he is on the side of the first angel, he has gained the sense of being a fighter until she is out of labor.
+13: The importance of evolution is when the whole of the whole body is vascious and no requisitional.
+14: If we don't have the capacity to protect her today, the fear of the younger generation will come to nothing.
+15: She is a self - sacrificing woman who comes across the whole story at a time when she is in the middle of an event every morning.
+16: As a result of the rapid pace of the city, many of the entire city's entire tribes have been drawn into the city, many of which are all full strangers, many of which are doing what is going on with La Ja Jayinga Ha Rha Rie which Ra B B s s sah ’ (“ silver”).
+17: The new hit, which is read by the Rasah Wart, quickly finds another comparison between the rest of the friends.
+18: ♪ Don't touch Ko Si C ♪ ♪ ♪ And then dig a new light ♪ ♪ ♪
+19: If and if there's no tray, I'll go back in time to the rest of it, which I won't eat.
+20: As far as we're concerned with Shi technology, it's been going down and down to the top of the information.
+
+First statement: I've got the fairy's wish today, even if it's not too much for us to eat, we're going to make sure that we're back to work on our feet for the bride's sake.
+
+Reference sentences: 20
+BLEU Score: 5.502369053784158
